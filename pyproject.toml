@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "cubecrit"
+version = "0.1.0"
+description = "A website for reviewing speedcubes."
+authors = ["Robert Yin <bobertoyin@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.0.2"
+sqlalchemy = "^2.0.26"
+bcrypt = "^4.1.2"
+psycopg2 = "^2.9.9"
+immutabledict = "^4.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ruff = "^0.2.1"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
