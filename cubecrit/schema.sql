@@ -1,22 +1,31 @@
-CREATE TABLE IF NOT EXISTS greetings (
+CREATE TABLE IF NOT EXISTS puzzle_types (
     id SERIAL PRIMARY KEY,
-    greeting VARCHAR UNIQUE NOT NULL
+    external_id VARCHAR UNIQUE NOT NULL,
+    display_name VARCHAR NOT NULL
 );
 
-INSERT INTO greetings(greeting)
-VALUES ('hello')
-ON CONFLICT(greeting)
-DO UPDATE SET
-    greeting = EXCLUDED.greeting;
+CREATE TABLE IF NOT EXISTS puzzles (
+    id SERIAL PRIMARY KEY,
+    external_id VARCHAR UNIQUE NOT NULL,
+    display_name VARCHAR NOT NULL,
+    release_date DATE,
+    discontinue_date DATE,
+    puzzle_type_id INT NOT NULL,
+    -- picture TEXT,
+    CONSTRAINT fk_puzzle_type
+        FOREIGN KEY(puzzle_type_id)
+        REFERENCES puzzle_types(id)
+);
 
-INSERT INTO greetings(greeting)
-VALUES ('salutations')
-ON CONFLICT(greeting)
+INSERT INTO puzzle_types(external_id, display_name)
+VALUES ('3x3', '3x3')
+ON CONFLICT(external_id)
 DO UPDATE SET
-    greeting = EXCLUDED.greeting;
+    external_id = EXCLUDED.external_id;
 
-INSERT INTO greetings(greeting)
-VALUES ('what''s up')
-ON CONFLICT(greeting)
+INSERT INTO puzzles(external_id, display_name, release_date, discontinue_date, puzzle_type_id)
+VALUES ('aolong-v2', 'AoLong V2', '2014-06-01', '2018-06-01', (SELECT id from puzzle_types
+    WHERE puzzle_types.external_id = '3x3'))
+ON CONFLICT(external_id)
 DO UPDATE SET
-    greeting = EXCLUDED.greeting;
+    external_id = EXCLUDED.external_id;
