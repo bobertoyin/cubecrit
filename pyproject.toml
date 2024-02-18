@@ -6,7 +6,7 @@ authors = ["Robert Yin <bobertoyin@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 flask = "^3.0.2"
 sqlalchemy = "^2.0.26"
 bcrypt = "^4.1.2"
@@ -15,9 +15,9 @@ immutabledict = "^4.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
 ruff = "^0.2.1"
 mypy = "^1.8.0"
+pytest = "^8.0.1"
 
 [build-system]
 requires = ["poetry-core"]

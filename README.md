@@ -37,6 +37,10 @@ docker compose up
 export DB_ADDRESS=localhost:5432
 export DB_PASSWORD=password
 
+# For Windows Users
+$Env:DB_ADDRESS="localhost:5432"
+$Env:DB_PASSWORD="password"
+
 # start the debug server on localhost:3000
 poetry run flask --app cubecrit run --debug --reload --port 3000
 ```
