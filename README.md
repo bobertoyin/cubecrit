@@ -20,13 +20,10 @@ poetry install
 poetry run pytest
 
 # run formatters/apply fixes
-poetry run ruff check --fix
-poetry run ruff format
+poetry run poe format
 
 # run linters/apply checks
-poetry run ruff check
-poetry run ruff format --check
-poetry run mypy .
+poetry run poe lint
 ```
 
 ```shell
@@ -42,7 +39,7 @@ $Env:DB_ADDRESS="localhost:5432"
 $Env:DB_PASSWORD="password"
 
 # start the debug server on localhost:3000
-poetry run flask --app cubecrit run --debug --reload --port 3000
+poetry run poe flask-debug
 ```
 
 ## Database Schema

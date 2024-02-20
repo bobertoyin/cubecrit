@@ -13,11 +13,22 @@ bcrypt = "^4.1.2"
 psycopg2 = "^2.9.9"
 immutabledict = "^4.1.0"
 
-
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
 mypy = "^1.8.0"
 pytest = "^8.0.1"
+poethepoet = "^0.24.4"
+
+[tool.poe.tasks]
+ruff-check-fix = "ruff check --fix"
+ruff-format = "ruff format"
+format = ["ruff-check-fix", "ruff-format"]
+ruff-check = "ruff check"
+ruff-format-check = "ruff format --check"
+mypy = "mypy ."
+lint = ["ruff-check", "ruff-format-check", "mypy"]
+flask-debug = "flask --app cubecrit run --debug --reload --port 3000"
+
 
 [build-system]
 requires = ["poetry-core"]
