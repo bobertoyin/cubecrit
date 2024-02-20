@@ -36,7 +36,7 @@ def get_puzzle_type_internal(conn: Connection, internal_id: int) -> PuzzleType |
         text(
             "SELECT external_id, display_name FROM puzzle_types WHERE id = :internal_id"
         ),
-        {"id": internal_id},
+        {"internal_id": internal_id},
     ).first()
     conn.commit()
     if result is not None:
@@ -55,5 +55,11 @@ def get_puzzle(conn: Connection, external_id: str) -> Puzzle | None:
     if result is not None:
         puzzle_type = get_puzzle_type_internal(conn, result.puzzle_type_id)
         if puzzle_type is not None:
-            return Puzzle(**result._asdict(), puzzle_type=puzzle_type)
+            return Puzzle(
+                puzzle_type=puzzle_type,
+                external_id=result.external_id,
+                display_name=result.display_name,
+                release_date=result.release_date,
+                discontinue_date=result.discontinue_date,
+            )
     return None

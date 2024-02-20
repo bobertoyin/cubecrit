@@ -1,13 +1,14 @@
 from flask import Flask
 from sqlalchemy import text
 
-from .controllers.greetings import greetings
 from .db import db
+
+from .controllers.puzzles import puzzles
 
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.register_blueprint(greetings)
+    app.register_blueprint(puzzles)
 
     with db.connect() as connection:
         with app.open_resource("schema.sql") as schema:
