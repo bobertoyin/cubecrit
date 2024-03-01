@@ -1,1 +1,10 @@
-<h1>{{puzzle}}</h1>
+{% extends "base.html" %}
+{% block title %}
+    {{ puzzle.display_name }}
+{% endblock title %}
+{% block content %}
+    <h1>{{ puzzle.display_name }}</h1>
+    <p>Reviews</p>
+    <p>Release Date: {{ puzzle.release_date }}</p>
+    <p>Discontinued: {{ puzzle.discontinue_date }}</p>
+{% endblock content %}
