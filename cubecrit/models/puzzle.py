@@ -11,16 +11,14 @@ class PuzzleType:
 
     @staticmethod
     def get_puzzle_type(conn: Connection, external_id: str) -> Optional["PuzzleType"]:
-        result = conn.execute(
-            text(
-                "SELECT external_id, display_name FROM puzzle_types WHERE external_id = :external_id"
-            ),
-            {"external_id": external_id},
-        ).first()
-        conn.commit()
-        if result is not None:
-            return PuzzleType(**result._asdict())
-        return None
+        with open("cubecrit/sql/get_puzzle_type.sql") as query:
+            result = conn.execute(
+                text(query.read()), {"external_id": external_id}
+            ).first()
+            conn.commit()
+            if result is not None:
+                return PuzzleType(**result._asdict())
+            return None
 
 
 @dataclass(frozen=True)

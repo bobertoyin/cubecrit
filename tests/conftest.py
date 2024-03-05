@@ -16,9 +16,9 @@ def db_connection() -> Generator[Connection, Any, Any]:
         """
     )
     connection.execute(reset_query)
-    with open("cubecrit/schema.sql") as schema:
+    with open("cubecrit/sql/schema.sql") as schema:
         connection.execute(text(schema.read()))
-    with open("cubecrit/seed.sql") as seed:
+    with open("cubecrit/sql/seed.sql") as seed:
         connection.execute(text(seed.read()))
     connection.commit()
     yield connection

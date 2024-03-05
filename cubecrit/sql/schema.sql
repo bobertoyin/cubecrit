@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS manufacturers (
     country_id INT UNIQUE NOT NULL,
     -- picture TEXT
     CONSTRAINT fk_country
-        FOREIGN KEY (country_id)
-        REFERENCES countries(id)
+    FOREIGN KEY (country_id)
+    REFERENCES countries (id)
 );
 
 CREATE TABLE IF NOT EXISTS puzzles (
@@ -31,11 +31,11 @@ CREATE TABLE IF NOT EXISTS puzzles (
     manufacturer_id INT NOT NULL,
     -- picture TEXT,
     CONSTRAINT fk_puzzle_type
-        FOREIGN KEY(puzzle_type_id)
-        REFERENCES puzzle_types(id),
+    FOREIGN KEY (puzzle_type_id)
+    REFERENCES puzzle_types (id),
     CONSTRAINT fk_manufacturer
-        FOREIGN KEY(manufacturer_id)
-        REFERENCES manufacturers(id)
+    FOREIGN KEY (manufacturer_id)
+    REFERENCES manufacturers (id)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS reviews (
     rating INT NOT NULL,
     content TEXT,
     CONSTRAINT fk_user
-        FOREIGN KEY(user_id)
-        REFERENCES users(id),
+    FOREIGN KEY (user_id)
+    REFERENCES users (id),
     CONSTRAINT fk_puzzle
-        FOREIGN KEY (puzzle_id)
-        REFERENCES puzzles(id)
+    FOREIGN KEY (puzzle_id)
+    REFERENCES puzzles (id)
 );

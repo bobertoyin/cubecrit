@@ -18,7 +18,7 @@ def create_app() -> Flask:
         if environ.get("DB_SEED") == "1":
             sql_files.append("seed.sql")
         for sql_file in sql_files:
-            with app.open_resource(sql_file) as schema:
+            with app.open_resource(f"sql/{sql_file}") as schema:
                 schema_content = str(schema.read(), encoding="utf8")  # type: ignore[call-overload]
                 connection.execute(text(schema_content))
         connection.commit()
