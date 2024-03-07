@@ -61,7 +61,7 @@ $Env:DB_ADDRESS="localhost:5432"
 $Env:DB_PASSWORD="password"
 
 # run unit tests
-poetry run pytest
+poetry run poe test
 ```
 
 ## Database Schema
