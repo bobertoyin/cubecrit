@@ -3,8 +3,8 @@ from os import environ
 from flask import Flask
 from sqlalchemy import text
 
-from .controllers.puzzles import puzzles
 from .controllers.index import index
+from .controllers.puzzles import puzzles
 from .db import db
 
 

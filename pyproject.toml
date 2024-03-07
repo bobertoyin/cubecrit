@@ -36,13 +36,16 @@ ruff-format-check = "ruff format --check"
 djlint-format-check = "djlint . --check"
 djlint-lint = "djlint . --lint"
 sqlfluff-lint = "sqlfluff lint"
-pydocstyle = "pydocstyle ."
+pydocstyle = "pydocstyle cubecrit"
 mypy = "mypy ."
 
 lint.sequence = ["ruff-check", "ruff-format-check", "djlint-format-check", "djlint-lint", "sqlfluff-lint", "pydocstyle", "mypy"]
 lint.ignore_fail = "return_non_zero"
 
 flask-debug = "flask --app cubecrit run --debug --reload --port 3000"
+
+[tool.ruff.lint]
+extend-select = ["I"]
 
 [tool.djlint]
 profile = "jinja"

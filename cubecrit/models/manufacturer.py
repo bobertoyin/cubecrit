@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from sqlalchemy import Connection, text
 from typing import Optional
+
+from sqlalchemy import Connection, text
 
 
 @dataclass(frozen=True)

@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, abort, render_template
 
 from ..db import db
-
 from ..models.puzzle import Puzzle
 
 puzzles = Blueprint(

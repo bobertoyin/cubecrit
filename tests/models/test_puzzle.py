@@ -3,8 +3,8 @@ from datetime import date
 from pytest import mark
 from sqlalchemy import Connection
 
-from cubecrit.models.puzzle import PuzzleType, Puzzle
-from cubecrit.models.manufacturer import Manufacturer, Country
+from cubecrit.models.manufacturer import Country, Manufacturer
+from cubecrit.models.puzzle import Puzzle, PuzzleType
 
 
 @mark.parametrize(

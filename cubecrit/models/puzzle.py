@@ -1,15 +1,21 @@
+"""Data models for puzzles."""
 from dataclasses import dataclass
 from datetime import date
-from sqlalchemy import Connection, text
 from typing import Optional
 
-from .manufacturer import Manufacturer, Country
+from sqlalchemy import Connection, text
+
+from .manufacturer import Country, Manufacturer
 
 
 @dataclass(frozen=True)
 class PuzzleType:
+    """A type of puzzle."""
+
     external_id: str
+    """The user-facing identifier."""
     display_name: str
+    """The formatted display name."""
 
     @staticmethod
     def get_puzzle_type(conn: Connection, external_id: str) -> Optional["PuzzleType"]:
