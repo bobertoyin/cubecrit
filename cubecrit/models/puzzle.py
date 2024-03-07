@@ -37,8 +37,8 @@ class Puzzle:
         """Get a puzzle from the database given an external ID.
 
         Parameters:
-            -conn: the database connection
-            -external_id: the user-facing identifier
+            - conn: the database connection
+            - external_id: the user-facing identifier
 
         Returns a puzzle, or None if the external ID does not exist.
         """
