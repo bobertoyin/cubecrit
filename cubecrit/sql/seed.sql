@@ -47,3 +47,26 @@ VALUES (
 ON CONFLICT (external_id)
 DO UPDATE SET
 external_id = excluded.external_id;
+
+INSERT INTO puzzles (
+    external_id,
+    display_name,
+    release_date,
+    discontinue_date,
+    puzzle_type_id,
+    manufacturer_id
+)
+VALUES (
+    'rs3-m-2020', 'RS3 M 2020', '2020-05-01', '2020-05-01',
+    (
+        SELECT puzzle_types.id FROM puzzle_types
+        WHERE puzzle_types.external_id = '3x3'
+    ),
+    (
+        SELECT manufacturers.id FROM manufacturers
+        WHERE manufacturers.external_id = 'moyu'
+    )
+)
+ON CONFLICT (external_id)
+DO UPDATE SET
+external_id = excluded.external_id;

@@ -3,6 +3,8 @@ from datetime import date
 from sqlalchemy import Connection, text
 from typing import Optional
 
+from .manufacturer import Manufacturer, Country
+
 
 @dataclass(frozen=True)
 class PuzzleType:
@@ -28,35 +30,45 @@ class Puzzle:
     release_date: date | None
     discontinue_date: date | None
     puzzle_type: PuzzleType
-    # missing: manufacturer
+    manufacturer: Manufacturer
 
     @staticmethod
     def get_puzzle(conn: Connection, external_id: str) -> Optional["Puzzle"]:
-        result = conn.execute(
-            text(
-                """SELECT puzzles.external_id, puzzle_types.external_id as puzzle_types_external_id, 
-                        puzzles.display_name, puzzle_types.display_name as puzzle_types_display_name, 
-                        release_date, discontinue_date FROM puzzles 
-                JOIN puzzle_types 
-                ON puzzles.puzzle_type_id = puzzle_types.id
-                WHERE puzzles.external_id = :external_id"""
-            ),
-            {"external_id": external_id},
-        ).first()
-        conn.commit()
-        if result is not None:
-            puzzle_type = PuzzleType(
-                result.puzzle_types_external_id,
-                result.puzzle_types_display_name,
-            )
-            return Puzzle(
-                result.external_id,
-                result.display_name,
-                result.release_date,
-                result.discontinue_date,
-                puzzle_type,
-            )
-        return None
+        """Get a puzzle from the database given an external ID.
+
+        Parameters:
+            -conn: the database connection
+            -external_id: the user-facing identifier
+
+        Returns a puzzle, or None if the external ID does not exist.
+        """
+        with open("cubecrit/sql/get_puzzle.sql") as query:
+            result = conn.execute(
+                text(query.read()), {"external_id": external_id}
+            ).first()
+            conn.commit()
+            if result is not None:
+                puzzle_type = PuzzleType(
+                    result.puzzle_types_external_id,
+                    result.puzzle_types_display_name,
+                )
+                country = Country(
+                    result.countries_external_id, result.countries_display_name
+                )
+                manufacturer = Manufacturer(
+                    result.manufacturers_external_id,
+                    result.manufacturers_display_name,
+                    country,
+                )
+                return Puzzle(
+                    result.external_id,
+                    result.display_name,
+                    result.release_date,
+                    result.discontinue_date,
+                    puzzle_type,
+                    manufacturer,
+                )
+            return None
 
 
 # MAKE USERS CLASS AND METHOD
