@@ -52,14 +52,6 @@ poetry run poe flask-debug
 # start the local postegres db unit test server on localhost:5433
 docker compose up db-test
 
-# set environment variables
-export DB_ADDRESS=localhost:5432
-export DB_PASSWORD=password
-
-# set environment variables for powershell
-$Env:DB_ADDRESS="localhost:5432"
-$Env:DB_PASSWORD="password"
-
 # run unit tests
 poetry run poe test
 ```
