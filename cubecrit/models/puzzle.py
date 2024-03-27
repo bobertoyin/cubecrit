@@ -19,6 +19,14 @@ class PuzzleType:
 
     @staticmethod
     def get_puzzle_type(conn: Connection, external_id: str) -> Optional["PuzzleType"]:
+        """Get a type of puzzle from the database given an external ID.
+
+        Parameters:
+        - conn: the database connection
+        - external_id: the user-facing identifier
+
+        Returns a puzzle type, or None if the external ID does not exist.
+        """
         with open("cubecrit/sql/get_puzzle_type.sql") as query:
             result = conn.execute(
                 text(query.read()), {"external_id": external_id}
@@ -31,12 +39,20 @@ class PuzzleType:
 
 @dataclass(frozen=True)
 class Puzzle:
+    """A puzzle."""
+
     external_id: str
+    """User-facing identifier for the puzzle."""
     display_name: str
+    """The formatted display name."""
     release_date: date | None
+    """The date when the puzzle was released."""
     discontinue_date: date | None
+    """The date when the puzzle was discontinued."""
     puzzle_type: PuzzleType
+    """The type of puzzle."""
     manufacturer: Manufacturer
+    """The manufacturer of the puzzle."""
 
     @staticmethod
     def get_puzzle(conn: Connection, external_id: str) -> Optional["Puzzle"]:
@@ -75,7 +91,3 @@ class Puzzle:
                     manufacturer,
                 )
             return None
-
-
-# MAKE USERS CLASS AND METHOD
-# MAKE REVIEWS CLASS AND METHOD

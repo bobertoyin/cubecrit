@@ -25,6 +25,12 @@ ON CONFLICT (external_id)
 DO UPDATE SET
 external_id = excluded.external_id;
 
+INSERT INTO users (wca_id, joined, first_name, last_name)
+VALUES ('2016PARK02', '2024-03-26', 'Steve', 'Jobs')
+ON CONFLICT (wca_id)
+DO UPDATE SET
+wca_id = excluded.wca_id;
+
 INSERT INTO puzzles (
     external_id,
     display_name,

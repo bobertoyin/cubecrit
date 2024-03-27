@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS users (
     wca_id VARCHAR UNIQUE NOT NULL,
     joined TIMESTAMP DEFAULT NOW(),
     first_name VARCHAR,
-    last_name VARCHAR
-    -- profile_picture TEXT
+    last_name VARCHAR,
+    profile_picture_url VARCHAR
 );
 
 CREATE TABLE IF NOT EXISTS reviews (
@@ -60,5 +60,6 @@ CREATE TABLE IF NOT EXISTS reviews (
     REFERENCES users (id),
     CONSTRAINT fk_puzzle
     FOREIGN KEY (puzzle_id)
-    REFERENCES puzzles (id)
+    REFERENCES puzzles (id),
+    UNIQUE (user_id, puzzle_id)
 );
