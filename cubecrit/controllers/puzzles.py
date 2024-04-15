@@ -8,7 +8,7 @@ puzzles = Blueprint(
 )
 
 
-@puzzles.route("/puzzles/<string:external_id>", methods=["GET"])
+@puzzles.route("/<string:external_id>", methods=["GET"])
 def get_puzzle_route(external_id: str) -> str:
     with db.connect() as connection:
         puzzle = Puzzle.get_puzzle(connection, external_id)
