@@ -36,6 +36,16 @@ class PuzzleType:
                 return PuzzleType(**result._asdict())
             return None
 
+    @staticmethod
+    def get_all_puzzle_types(conn: Connection) -> list["PuzzleType"]:
+        with open("cubecrit/sql/get_all_puzzle_types.sql") as query:
+            result = conn.execute(text(query.read()))
+            conn.commit()
+            puzzle_type_list = []
+            for row in result:
+                puzzle_type_list.append(PuzzleType(**row._asdict()))
+            return puzzle_type_list
+
 
 @dataclass(frozen=True)
 class Puzzle:

@@ -4,6 +4,10 @@
 {% endblock title %}
 {% block content %}
     <form class="d-flex">
+        <select class="form-select" aria-label="Filter By Puzzle Type">
+            <option value="" selected>Puzzle Type</option>
+            {% for row in all_puzzle_types %}<option value="{{ row.external_id }}">{{ row.display_name }}</option>{% endfor %}
+        </select>
         <input class="form-control me-2"
                type="search"
                placeholder="Search"
