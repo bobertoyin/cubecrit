@@ -46,12 +46,9 @@ $Env:DB_SEED=1
 poetry run poe flask-debug
 ```
 
-#### Unit Tests
+#### Tests
 
 ```shell
-# start the local postegres db unit test server on localhost:5433
-docker compose up db-test
-
 # run unit tests
 poetry run poe test
 ```

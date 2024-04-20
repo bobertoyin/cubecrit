@@ -472,6 +472,37 @@ files = [
 ]
 
 [[package]]
+name = "munch"
+version = "4.0.0"
+description = "A dot-accessible dictionary (a la JavaScript objects)"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "munch-4.0.0-py2.py3-none-any.whl", hash = "sha256:71033c45db9fb677a0b7eb517a4ce70ae09258490e419b0e7f00d1e386ecb1b4"},
+    {file = "munch-4.0.0.tar.gz", hash = "sha256:542cb151461263216a4e37c3fd9afc425feeaf38aaa3025cd2a981fadb422235"},
+]
+
+[package.extras]
+testing = ["astroid (>=2.0)", "coverage", "pylint (>=2.3.1,<2.4.0)", "pytest"]
+yaml = ["PyYAML (>=5.1.0)"]
+
+[[package]]
+name = "munch-stubs"
+version = "0.1.2"
+description = "Mypy plugin and stubs for munch"
+optional = false
+python-versions = "*"
+files = [
+    {file = "munch-stubs-0.1.2.tar.gz", hash = "sha256:da9346cdbe9ab7b7b7fb99844588c5ac6289c8225ff11f1479e95fcea3bec32c"},
+    {file = "munch_stubs-0.1.2-py3-none-any.whl", hash = "sha256:06338441663b4e1fbe33ac0a3911977d3ff63e9714e5c356f61910be623393ac"},
+]
+
+[package.dependencies]
+munch = ">=2.5.0"
+mypy = ">=0.720"
+typing-extensions = ">=3.7.4"
+
+[[package]]
 name = "mypy"
 version = "1.8.0"
 description = "Optional static typing for Python"
@@ -1096,4 +1127,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "edef1046ce4c974c84b7cd456d248a90f0a06e4b5246981d6d24a926b31f9ec3"
+content-hash = "e6ebb519465764d9a95a3166027a767023fcf3b778e31f33ceb5d1f206396add"
