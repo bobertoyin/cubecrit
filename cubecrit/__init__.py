@@ -5,7 +5,7 @@ from flask import Flask
 from sqlalchemy import text
 
 from .controllers.index import index
-from .controllers.manufacturer import manufacturer
+from .controllers.manufacturers import manufacturers
 from .controllers.puzzles import puzzles
 from .db import db
 
@@ -16,9 +16,9 @@ def create_app() -> Flask:
     Returns the configured flask application object.
     """
     app = Flask(__name__)
-    app.register_blueprint(puzzles)
     app.register_blueprint(index)
-    app.register_blueprint(manufacturer)
+    app.register_blueprint(manufacturers)
+    app.register_blueprint(puzzles)
 
     with db.connect() as connection:
         sql_files = ["schema.sql"]

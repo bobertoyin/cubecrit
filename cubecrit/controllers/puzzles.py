@@ -14,4 +14,4 @@ def get_puzzle_route(external_id: str) -> str:
         puzzle = Puzzle.get_puzzle(connection, external_id)
         if puzzle is None:
             return abort(404)
-        return render_template("puzzles.html", puzzle=puzzle)
+        return render_template("puzzle.html", puzzle=puzzle)
