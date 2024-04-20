@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS manufacturer (
     picture_url VARCHAR,
     CONSTRAINT fk_country
     FOREIGN KEY (country_id)
-    REFERENCES countries (id)
+    REFERENCES country (id)
 );
 
 CREATE TABLE IF NOT EXISTS puzzle (
@@ -32,10 +32,10 @@ CREATE TABLE IF NOT EXISTS puzzle (
     picture_url VARCHAR,
     CONSTRAINT fk_puzzle_type
     FOREIGN KEY (puzzle_type_id)
-    REFERENCES puzzle_types (id),
+    REFERENCES puzzle_type (id),
     CONSTRAINT fk_manufacturer
     FOREIGN KEY (manufacturer_id)
-    REFERENCES manufacturers (id)
+    REFERENCES manufacturer (id)
 );
 
 CREATE TABLE IF NOT EXISTS "user" (
@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS review (
     content TEXT,
     CONSTRAINT fk_user
     FOREIGN KEY (user_id)
-    REFERENCES users (id),
+    REFERENCES "user" (id),
     CONSTRAINT fk_puzzle
     FOREIGN KEY (puzzle_id)
-    REFERENCES puzzles (id),
+    REFERENCES puzzle (id),
     UNIQUE (user_id, puzzle_id)
 );

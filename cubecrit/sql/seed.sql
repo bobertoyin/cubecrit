@@ -4,8 +4,8 @@ ON CONFLICT DO NOTHING;
 
 INSERT INTO manufacturer (external_id, display_name, country_id)
 VALUES ('moyu', 'MoYu', (
-    SELECT countries.id FROM countries
-    WHERE countries.external_id = 'china'
+    SELECT country.id FROM country
+    WHERE country.external_id = 'china'
 ))
 ON CONFLICT DO NOTHING;
 
@@ -32,12 +32,12 @@ INSERT INTO puzzle (
 VALUES (
     'aolong-v2', 'AoLong V2', '2014-06-01', '2018-06-01',
     (
-        SELECT puzzle_types.id FROM puzzle_types
-        WHERE puzzle_types.external_id = '3x3'
+        SELECT puzzle_type.id FROM puzzle_type
+        WHERE puzzle_type.external_id = '3x3'
     ),
     (
-        SELECT manufacturers.id FROM manufacturers
-        WHERE manufacturers.external_id = 'moyu'
+        SELECT manufacturer.id FROM manufacturer
+        WHERE manufacturer.external_id = 'moyu'
     )
 )
 ON CONFLICT DO NOTHING;
@@ -53,12 +53,12 @@ INSERT INTO puzzle (
 VALUES (
     'rs3-m-2020', 'RS3 M 2020', '2020-05-01', '2020-05-01',
     (
-        SELECT puzzle_types.id FROM puzzle_types
-        WHERE puzzle_types.external_id = '3x3'
+        SELECT puzzle_type.id FROM puzzle_type
+        WHERE puzzle_type.external_id = '3x3'
     ),
     (
-        SELECT manufacturers.id FROM manufacturers
-        WHERE manufacturers.external_id = 'moyu'
+        SELECT manufacturer.id FROM manufacturer
+        WHERE manufacturer.external_id = 'moyu'
     )
 )
 ON CONFLICT DO NOTHING;
