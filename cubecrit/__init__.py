@@ -1,3 +1,4 @@
+"""Entry point for the application."""
 from os import environ
 
 from flask import Flask
@@ -10,6 +11,10 @@ from .db import db
 
 
 def create_app() -> Flask:
+    """Create the cubecrit flask app.
+
+    Returns the configured flask application object.
+    """
     app = Flask(__name__)
     app.register_blueprint(puzzles)
     app.register_blueprint(index)

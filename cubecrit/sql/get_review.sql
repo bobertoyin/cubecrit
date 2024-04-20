@@ -18,8 +18,9 @@ SELECT
     manufacturers.display_name AS manufacturers_display_name,
     countries.external_id AS countries_external_id,
     countries.display_name AS countries_display_name
+FROM reviews
 INNER JOIN users
-    ON reviews.user_id = users.id 
+    ON reviews.user_id = users.id
 INNER JOIN puzzles
     ON reviews.puzzle_id = puzzles.id
 INNER JOIN puzzle_types

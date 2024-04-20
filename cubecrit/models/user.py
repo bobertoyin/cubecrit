@@ -1,4 +1,4 @@
-"""Data models for user."""
+"""Data models for users."""
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
@@ -29,7 +29,8 @@ class User:
             - conn: the database connection
             - wca_id: the user-facing identifier
 
-        Returns a user, or None if the wca_id does not exist."""
+        Returns a user, or None if the wca_id does not exist.
+        """
         with open("cubecrit/sql/get_user.sql") as query:
             result = conn.execute(text(query.read()), {"wca_id": wca_id}).first()
             conn.commit()

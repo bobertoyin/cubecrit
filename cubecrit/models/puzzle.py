@@ -38,6 +38,13 @@ class PuzzleType:
 
     @staticmethod
     def get_all_puzzle_types(conn: Connection) -> list["PuzzleType"]:
+        """Get all puzzle types from the database.
+
+        Parameters:
+        - conn: the database connection
+
+        Returns a list of puzzle types.
+        """
         with open("cubecrit/sql/get_all_puzzle_types.sql") as query:
             result = conn.execute(text(query.read()))
             conn.commit()

@@ -53,6 +53,7 @@ extend-select = ["I"]
 profile = "jinja"
 format_css = true
 format_js = true
+ignore = "H006"
 
 [tool.sqlfluff.core]
 dialect = "postgres"

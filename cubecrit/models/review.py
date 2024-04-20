@@ -1,4 +1,4 @@
-"""Data models for user."""
+"""Data models for reviews."""
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional

@@ -1,3 +1,4 @@
+"""Data models for manufacturers."""
 from dataclasses import dataclass
 from typing import Optional
 
