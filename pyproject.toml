@@ -2,7 +2,7 @@
 name = "cubecrit"
 version = "0.1.0"
 description = "A website for reviewing speedcubes."
-authors = ["Robert Yin <bobertoyin@gmail.com>"]
+authors = ["Robert Yin <bobertoyin@gmail.com>", "Eli Parker <epproper54@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
