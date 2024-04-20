@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.10"
 flask = "^3.0.2"
 sqlalchemy = "^2.0.26"
-bcrypt = "^4.1.2"
 psycopg2 = "^2.9.9"
 immutabledict = "^4.1.0"
 
