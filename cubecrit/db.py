@@ -1,7 +1,8 @@
+"""The database engine."""
 from os import environ
 
 from sqlalchemy import create_engine
 
 db = create_engine(
-    f"postgresql://cubecrit:{environ['DB_PASSWORD']}@{environ['DB_ADDRESS']}/cubecrit"
+    f"postgresql://cubecrit:{environ.get('DB_PASSWORD')}@{environ.get('DB_ADDRESS')}/cubecrit"
 )

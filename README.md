@@ -9,6 +9,7 @@ A website for reviewing [speedcubes](https://en.wikipedia.org/wiki/Speedcubing).
 - [Python 3.11](https://www.python.org/downloads)
 - [Poetry](https://python-poetry.org/docs/#installation)
 - [Docker](https://docs.docker.com/desktop)
+  - You can also install and run [PostgreSQL](https://www.postgresql.org) instead of using the Docker Compose commands
 
 ### Commands
 
@@ -16,29 +17,43 @@ A website for reviewing [speedcubes](https://en.wikipedia.org/wiki/Speedcubing).
 # install dependencies
 poetry install
 
-# run unit tests
-poetry run pytest
-
 # run formatters/apply fixes
-poetry run ruff check --fix
-poetry run ruff format
+poetry run poe format
 
 # run linters/apply checks
-poetry run ruff check
-poetry run ruff format --check
-poetry run mypy .
+poetry run poe lint
 ```
+
+#### Running Locally
 
 ```shell
 # start the local postgres db server on localhost:5432
-docker compose up
+docker compose up db
 
 # set environment variables
 export DB_ADDRESS=localhost:5432
 export DB_PASSWORD=password
+# set this one if you want to seed the db with example data
+export DB_SEED=1
+
+# set environment variables for powershell
+$Env:DB_ADDRESS="localhost:5432"
+$Env:DB_PASSWORD="password"
+# set this one if you want to seed the db with example data
+$Env:DB_SEED=1
 
 # start the debug server on localhost:3000
-poetry run flask --app cubecrit run --debug --reload --port 3000
+poetry run poe flask-debug
+```
+
+#### Unit Tests
+
+```shell
+# start the local postegres db unit test server on localhost:5433
+docker compose up db-test
+
+# run unit tests
+poetry run poe test
 ```
 
 ## Database Schema
