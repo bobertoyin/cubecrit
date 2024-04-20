@@ -1,37 +1,27 @@
-INSERT INTO countries (external_id, display_name)
+INSERT INTO country (external_id, display_name)
 VALUES ('china', 'China')
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO manufacturers (external_id, display_name, country_id)
+INSERT INTO manufacturer (external_id, display_name, country_id)
 VALUES ('moyu', 'MoYu', (
     SELECT countries.id FROM countries
     WHERE countries.external_id = 'china'
 ))
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO puzzle_types (external_id, display_name)
+INSERT INTO puzzle_type (external_id, display_name)
 VALUES ('3x3', '3x3')
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO puzzle_types (external_id, display_name)
+INSERT INTO puzzle_type (external_id, display_name)
 VALUES ('megaminx', 'Megaminx')
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO users (wca_id, joined, first_name, last_name)
+INSERT INTO "user" (wca_id, joined, first_name, last_name)
 VALUES ('2016PARK02', '2024-03-26', 'Steve', 'Jobs')
-ON CONFLICT (wca_id)
-DO UPDATE SET
-wca_id = excluded.wca_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO puzzles (
+INSERT INTO puzzle (
     external_id,
     display_name,
     release_date,
@@ -50,11 +40,9 @@ VALUES (
         WHERE manufacturers.external_id = 'moyu'
     )
 )
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;
 
-INSERT INTO puzzles (
+INSERT INTO puzzle (
     external_id,
     display_name,
     release_date,
@@ -73,6 +61,4 @@ VALUES (
         WHERE manufacturers.external_id = 'moyu'
     )
 )
-ON CONFLICT (external_id)
-DO UPDATE SET
-external_id = excluded.external_id;
+ON CONFLICT DO NOTHING;

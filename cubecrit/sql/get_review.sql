@@ -1,34 +1,34 @@
 SELECT
-    reviews.created_at,
-    reviews.updated_at,
-    reviews.rating,
-    reviews.content,
-    users.wca_id AS users_wca_id,
-    users.joined AS users_joined,
-    users.first_name AS users_first_name,
-    users.last_name AS users_last_name,
-    users.profile_picture_url AS users_profile_picture_url,
-    puzzles.external_id AS puzzles_external_id,
-    puzzle_types.external_id AS puzzle_types_external_id,
-    puzzles.display_name AS puzzles_display_name,
-    puzzle_types.display_name AS puzzle_types_display_name,
-    puzzles.release_date AS puzzles_release_date,
-    puzzles.discontinue_date AS puzzles_discontinue_date,
-    manufacturers.external_id AS manufacturers_external_id,
-    manufacturers.display_name AS manufacturers_display_name,
-    countries.external_id AS countries_external_id,
-    countries.display_name AS countries_display_name
-FROM reviews
-INNER JOIN users
-    ON reviews.user_id = users.id
-INNER JOIN puzzles
-    ON reviews.puzzle_id = puzzles.id
-INNER JOIN puzzle_types
-    ON puzzles.puzzle_type_id = puzzle_types.id
-INNER JOIN manufacturers
-    ON puzzles.manufacturer_id = manufacturers.id
-INNER JOIN countries
-    ON manufacturers.country_id = countries.id
+    review.created_at,
+    review.updated_at,
+    review.rating,
+    review.content,
+    "user".wca_id AS user_wca_id,
+    "user".joined AS user_joined,
+    "user".first_name AS user_first_name,
+    "user".last_name AS user_last_name,
+    "user".profile_picture_url AS user_profile_picture_url,
+    puzzle.external_id AS puzzle_external_id,
+    puzzle_type.external_id AS puzzle_type_external_id,
+    puzzle.display_name AS puzzle_display_name,
+    puzzle_type.display_name AS puzzle_type_display_name,
+    puzzle.release_date AS puzzle_release_date,
+    puzzle.discontinue_date AS puzzle_discontinue_date,
+    manufacturer.external_id AS manufacturer_external_id,
+    manufacturer.display_name AS manufacturer_display_name,
+    country.external_id AS country_external_id,
+    country.display_name AS country_display_name
+FROM review
+INNER JOIN "user"
+    ON review.user_id = "user".id
+INNER JOIN puzzle
+    ON review.puzzle_id = puzzle.id
+INNER JOIN puzzle_type
+    ON puzzle.puzzle_type_id = puzzle_type.id
+INNER JOIN manufacturer
+    ON puzzle.manufacturer_id = manufacturer.id
+INNER JOIN country
+    ON manufacturer.country_id = country.id
 WHERE
-    users_wca_id = :wca_id
-    AND puzzles.external_id = :puzzles_external_id;
+    user_wca_id = :wca_id
+    AND puzzle.external_id = :puzzle_external_id;

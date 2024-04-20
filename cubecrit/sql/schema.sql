@@ -1,27 +1,27 @@
-CREATE TABLE IF NOT EXISTS puzzle_types (
+CREATE TABLE IF NOT EXISTS puzzle_type (
     id SERIAL PRIMARY KEY,
     external_id VARCHAR UNIQUE NOT NULL,
     display_name VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS countries (
+CREATE TABLE IF NOT EXISTS country (
     id SERIAL PRIMARY KEY,
     external_id VARCHAR UNIQUE NOT NULL,
     display_name VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS manufacturers (
+CREATE TABLE IF NOT EXISTS manufacturer (
     id SERIAL PRIMARY KEY,
     external_id VARCHAR UNIQUE NOT NULL,
     display_name VARCHAR NOT NULL,
     country_id INT UNIQUE NOT NULL,
-    -- picture TEXT
+    picture_url VARCHAR,
     CONSTRAINT fk_country
     FOREIGN KEY (country_id)
     REFERENCES countries (id)
 );
 
-CREATE TABLE IF NOT EXISTS puzzles (
+CREATE TABLE IF NOT EXISTS puzzle (
     id SERIAL PRIMARY KEY,
     external_id VARCHAR UNIQUE NOT NULL,
     display_name VARCHAR NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS puzzles (
     discontinue_date DATE,
     puzzle_type_id INT NOT NULL,
     manufacturer_id INT NOT NULL,
-    -- picture TEXT,
+    picture_url VARCHAR,
     CONSTRAINT fk_puzzle_type
     FOREIGN KEY (puzzle_type_id)
     REFERENCES puzzle_types (id),
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS puzzles (
     REFERENCES manufacturers (id)
 );
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS "user" (
     id SERIAL PRIMARY KEY,
     wca_id VARCHAR UNIQUE NOT NULL,
     joined TIMESTAMP DEFAULT NOW(),
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS users (
     profile_picture_url VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS reviews (
+CREATE TABLE IF NOT EXISTS review (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     puzzle_id INT NOT NULL,

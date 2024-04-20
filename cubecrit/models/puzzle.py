@@ -88,15 +88,15 @@ class Puzzle:
             conn.commit()
             if result is not None:
                 puzzle_type = PuzzleType(
-                    result.puzzle_types_external_id,
-                    result.puzzle_types_display_name,
+                    result.puzzle_type_external_id,
+                    result.puzzle_type_display_name,
                 )
                 country = Country(
-                    result.countries_external_id, result.countries_display_name
+                    result.country_external_id, result.country_display_name
                 )
                 manufacturer = Manufacturer(
-                    result.manufacturers_external_id,
-                    result.manufacturers_display_name,
+                    result.manufacturer_external_id,
+                    result.manufacturer_display_name,
                     country,
                 )
                 return Puzzle(

@@ -1,19 +1,19 @@
 SELECT
-    puzzles.external_id,
-    puzzle_types.external_id AS puzzle_types_external_id,
-    puzzles.display_name,
-    puzzle_types.display_name AS puzzle_types_display_name,
-    puzzles.release_date,
-    puzzles.discontinue_date,
-    manufacturers.external_id AS manufacturers_external_id,
-    manufacturers.display_name AS manufacturers_display_name,
-    countries.external_id AS countries_external_id,
-    countries.display_name AS countries_display_name
-FROM puzzles
-INNER JOIN puzzle_types
-    ON puzzles.puzzle_type_id = puzzle_types.id
-INNER JOIN manufacturers
-    ON puzzles.manufacturer_id = manufacturers.id
-INNER JOIN countries
-    ON manufacturers.country_id = countries.id
-WHERE puzzles.external_id = :external_id
+    puzzle.external_id,
+    puzzle_type.external_id AS puzzle_type_external_id,
+    puzzle.display_name,
+    puzzle_type.display_name AS puzzle_type_display_name,
+    puzzle.release_date,
+    puzzle.discontinue_date,
+    manufacturer.external_id AS manufacturer_external_id,
+    manufacturer.display_name AS manufacturer_display_name,
+    country.external_id AS country_external_id,
+    country.display_name AS country_display_name
+FROM puzzle
+INNER JOIN puzzle_type
+    ON puzzle.puzzle_type_id = puzzle_type.id
+INNER JOIN manufacturer
+    ON puzzle.manufacturer_id = manufacturer.id
+INNER JOIN country
+    ON manufacturer.country_id = country.id
+WHERE puzzle.external_id = :external_id

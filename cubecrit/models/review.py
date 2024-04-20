@@ -31,31 +31,31 @@ class Review:
             conn.commit()
             if result is not None:
                 puzzle_type = PuzzleType(
-                    result.puzzle_types_external_id,
-                    result.puzzle_types_display_name,
+                    result.puzzle_type_external_id,
+                    result.puzzle_type_display_name,
                 )
                 country = Country(
-                    result.countries_external_id, result.countries_display_name
+                    result.country_external_id, result.country_display_name
                 )
                 manufacturer = Manufacturer(
-                    result.manufacturers_external_id,
-                    result.manufacturers_display_name,
+                    result.manufacturer_external_id,
+                    result.manufacturer_display_name,
                     country,
                 )
                 puzzle = Puzzle(
-                    result.puzzles_external_id,
-                    result.puzzles_display_name,
-                    result.puzzles_release_date,
-                    result.puzzles_discontinue_date,
+                    result.puzzle_external_id,
+                    result.puzzle_display_name,
+                    result.puzzle_release_date,
+                    result.puzzle_discontinue_date,
                     puzzle_type,
                     manufacturer,
                 )
                 user = User(
-                    result.users_wca_id,
-                    result.users_joined,
-                    result.users_first_name,
-                    result.users_last_name,
-                    result.users_profile_picture_url,
+                    result.user_wca_id,
+                    result.user_joined,
+                    result.user_first_name,
+                    result.user_last_name,
+                    result.user_profile_picture_url,
                 )
                 return Review(
                     user,

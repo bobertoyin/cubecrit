@@ -1,4 +1,4 @@
 SELECT
     external_id,
     display_name
-FROM puzzle_types;
+FROM puzzle_type;

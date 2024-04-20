@@ -14,7 +14,7 @@ class Country:
     def get_country(conn: Connection, external_id: str) -> Optional["Country"]:
         result = conn.execute(
             text(
-                "SELECT external_id, display_name FROM countries WHERE external_id = :external_id"
+                "SELECT external_id, display_name FROM country WHERE external_id = :external_id"
             ),
             {"external_id": external_id},
         ).first()
@@ -36,11 +36,11 @@ class Manufacturer:
     ) -> Optional["Manufacturer"]:
         result = conn.execute(
             text(
-                """SELECT manufacturers.external_id, countries.external_id as countries_external_id,
-                    manufacturers.display_name, countries.display_name as countries_display_name
-                    FROM manufacturers
-                    JOIN countries ON manufacturers.country_id = countries.id
-                    WHERE manufacturers.external_id = :external_id
+                """SELECT manufacturer.external_id, country.external_id as country_external_id,
+                    manufacturer.display_name, country.display_name as country_display_name
+                    FROM manufacturer
+                    JOIN country ON manufacturer.country_id = country.id
+                    WHERE manufacturer.external_id = :external_id
                     """
             ),
             {"external_id": external_id},
@@ -48,8 +48,8 @@ class Manufacturer:
         conn.commit()
         if result is not None:
             country = Country(
-                result.countries_external_id,
-                result.countries_display_name,
+                result.country_external_id,
+                result.country_display_name,
             )
             return Manufacturer(
                 result.external_id,
