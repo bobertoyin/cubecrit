@@ -1,0 +1,19 @@
+.navbar .dropdown-item:active, .navbar .dropdown-item.active {
+    background-color: var(--bs-info) !important;
+}
+
+.navbar .dropdown-item:active {
+    color: var(--bs-dark) !important;
+}
+
+.navbar, .offcanvas {
+    background-color: var(--bs-info) !important;
+}
+
+.navbar .navbar-toggler-icon, .navbar .btn-close { 
+    filter: brightness(0);
+}
+
+.navbar *:not(.dropdown-item), .navbar .dropdown-item.active  {
+    color: var(--bs-dark) !important;
+}

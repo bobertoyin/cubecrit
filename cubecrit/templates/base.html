@@ -13,14 +13,56 @@
               rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
               crossorigin="anonymous">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='styles/navbar.css') }}">
+        <script src="{{ url_for('static', filename='js/init-theme.js') }}"></script>
     </head>
     <body>
-        <nav class="navbar text-bg-info p-3">
-            <div class="container-fluid">
+        <header class="navbar p-2 navbar-expand-lg">
+            <nav class="container-fluid">
                 <a class="navbar-brand" href="{{ url_for("index.get_index_route") }}">CubeCrit</a>
-                <a class="d-flex btn btn-primary">Sign In</a>
-            </div>
-        </nav>
+                <button class="navbar-toggler border-0 p-0"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#navbar-toggle">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="navbar-toggle">
+                    <div class="offcanvas-header pb-0">
+                        <h5 class="offcanvas-title">CubeCrit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <div class="offcanvas-body pt-0">
+                        <hr class="mt-2 me-auto">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="dropdown-toggle nav-link"
+                                        data-bs-display="static"
+                                        data-bs-toggle="dropdown">Theme</button>
+                                <ul class="dropdown-menu dropdown-menu-lg-end p-0">
+                                    <li class="m-1">
+                                        <button id="theme-light"
+                                                class="dropdown-item rounded"
+                                                onclick="setTheme('light')">Light</button>
+                                    </li>
+                                    <li class="m-1">
+                                        <button id="theme-dark"
+                                                class="dropdown-item rounded"
+                                                onclick="setTheme('dark')">Dark</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Sign In</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
         <div class="p-4">
             {% block content %}
             {% endblock content %}
@@ -28,5 +70,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
                 crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='js/set-theme.js') }}"></script>
     </body>
 </html>
