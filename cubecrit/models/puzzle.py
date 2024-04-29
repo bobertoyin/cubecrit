@@ -108,3 +108,31 @@ class Puzzle:
                     manufacturer,
                 )
             return None
+
+    @staticmethod
+    def get_all_puzzles(conn: Connection) -> list["Puzzle"]:
+        with open("cubecrit/sql/get_all_puzzles.sql") as query:
+            result = conn.execute(text(query.read()))
+            conn.commit()
+            puzzle_list = []
+            for row in result:
+                puzzle_type = PuzzleType(
+                    row.puzzle_type_external_id,
+                    row.puzzle_type_display_name,
+                )
+                country = Country(row.country_external_id, row.country_display_name)
+                manufacturer = Manufacturer(
+                    row.manufacturer_external_id,
+                    row.manufacturer_display_name,
+                    country,
+                )
+                puzzle = Puzzle(
+                    row.external_id,
+                    row.display_name,
+                    row.release_date,
+                    row.discontinue_date,
+                    puzzle_type,
+                    manufacturer,
+                )
+                puzzle_list.append(puzzle)
+            return puzzle_list

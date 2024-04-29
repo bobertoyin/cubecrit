@@ -15,3 +15,10 @@ def get_puzzle_route(external_id: str) -> str:
         if puzzle is None:
             return abort(404)
         return render_template("puzzle.html", puzzle=puzzle)
+
+
+@puzzles.route("/", methods=["GET"])
+def get_all_puzzles_route() -> str:
+    with db.connect() as connection:
+        all_puzzles = Puzzle.get_all_puzzles(connection)
+        return render_template("all_puzzles.html", all_puzzles=all_puzzles)
