@@ -7,11 +7,23 @@ from sqlalchemy import Connection, text
 
 @dataclass(frozen=True)
 class Country:
+    """A country."""
+
     external_id: str
+    """The user-facing identifier."""
     display_name: str
+    """The formatted display name."""
 
     @staticmethod
     def get_country(conn: Connection, external_id: str) -> Optional["Country"]:
+        """Get a country based on a given external ID.
+
+        Parameters:
+        - conn: the database connection
+        - external_id: the user-facing identifier
+
+        Returns a country, or None if the external ID does not exist.
+        """
         result = conn.execute(
             text(
                 "SELECT external_id, display_name FROM country WHERE external_id = :external_id"
@@ -26,14 +38,27 @@ class Country:
 
 @dataclass(frozen=True)
 class Manufacturer:
+    """A puzzle manufacturer."""
+
     external_id: str
+    """The user-facing identifier."""
     display_name: str
+    """The formatted display name."""
     country: Country
+    """The manufacturer's country of origin."""
 
     @staticmethod
     def get_manufacturer(
         conn: Connection, external_id: str
     ) -> Optional["Manufacturer"]:
+        """Get a manufacturer based on a given external ID.
+
+        Parameters:
+        - conn: the database connection
+        - external_id: the user-facing identifier
+
+        Returns a manufacturer, or None if the external ID does not exist.
+        """
         result = conn.execute(
             text(
                 """SELECT manufacturer.external_id, country.external_id as country_external_id,
