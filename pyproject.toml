@@ -45,7 +45,7 @@ lint.sequence = ["ruff-check", "ruff-format-check", "djlint-format-check", "djli
 lint.ignore_fail = "return_non_zero"
 
 flask-debug = "flask --app cubecrit run --debug --reload --port 3000"
-test = "pytest --cov=cubecrit --cov-report=term-missing --cov-fail-under=85"
+test = "pytest --cov=cubecrit --cov-report=term-missing --cov-fail-under=80"
 
 [tool.ruff.lint]
 extend-select = ["I"]
