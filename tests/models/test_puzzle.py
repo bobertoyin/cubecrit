@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from datetime import date
 from unittest.mock import MagicMock, patch
 
@@ -23,15 +24,42 @@ def test_get_puzzle_type(
 ):
     # arrange
     if expected:
-        mock_connection.execute().first()._asdict.return_value = {
-            "external_id": expected.external_id,
-            "display_name": expected.display_name,
-        }
+        mock_connection.execute().first()._asdict.return_value = asdict(expected)
     else:
         mock_connection.execute().first.return_value = None
 
     # act
     result = PuzzleType.get_puzzle_type(mock_connection, external_id)
+
+    # assert
+    assert result == expected
+
+
+@patch("sqlalchemy.Connection")
+@mark.parametrize(
+    "expected",
+    [
+        ([]),
+        (
+            [
+                PuzzleType("3x3", "3x3"),
+                PuzzleType("megaminx", "Megaminx"),
+                PuzzleType("skewb", "Skewb"),
+            ]
+        ),
+    ],
+)
+def test_get_all_puzzle_types(mock_connection: MagicMock, expected: list[PuzzleType]):
+    # arrange
+    mock_return = []
+    for puzzle_type in expected:
+        mock = MagicMock()
+        mock._asdict.return_value = asdict(puzzle_type)
+        mock_return.append(mock)
+    mock_connection.execute.return_value = mock_return
+
+    # act
+    result = PuzzleType.get_all_puzzle_types(mock_connection)
 
     # assert
     assert result == expected
