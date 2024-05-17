@@ -7,6 +7,8 @@ from sqlalchemy import Connection, text
 
 from .manufacturer import Country, Manufacturer
 
+PUZZLES_PER_PAGE = 1
+
 
 @dataclass(frozen=True)
 class PuzzleType:
@@ -110,9 +112,15 @@ class Puzzle:
             return None
 
     @staticmethod
-    def get_all_puzzles(conn: Connection) -> list["Puzzle"]:
-        with open("cubecrit/sql/get_all_puzzles.sql") as query:
-            result = conn.execute(text(query.read()))
+    def get_puzzle_page(conn: Connection, page_number: int) -> list["Puzzle"]:
+        with open("cubecrit/sql/get_puzzle_page.sql") as query:
+            result = conn.execute(
+                text(query.read()),
+                {
+                    "puzzles_per_page": PUZZLES_PER_PAGE,
+                    "offset": (page_number - 1) * PUZZLES_PER_PAGE,
+                },
+            )
             conn.commit()
             puzzle_list = []
             for row in result:

@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, render_template
+from flask import Blueprint, abort, render_template, request
 
 from ..db import db
 from ..models.puzzle import Puzzle
@@ -18,7 +18,20 @@ def get_puzzle_route(external_id: str) -> str:
 
 
 @puzzles.route("/", methods=["GET"])
-def get_all_puzzles_route() -> str:
+def get_puzzle_page_route() -> str:
+    page = request.args.get("page")
     with db.connect() as connection:
-        all_puzzles = Puzzle.get_all_puzzles(connection)
-        return render_template("all_puzzles.html", all_puzzles=all_puzzles)
+        puzzle_page = Puzzle.get_puzzle_page(connection, validate_page_number(page))
+        return render_template("puzzles.html", puzzle_page=puzzle_page)
+
+
+def validate_page_number(page_number: str | None) -> int:
+    if page_number is None:
+        return 1
+    try:
+        check_num = int(page_number)
+        if check_num <= 0:
+            check_num = 1
+        return check_num
+    except ValueError:
+        return 1
