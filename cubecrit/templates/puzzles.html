@@ -5,7 +5,9 @@
 {% block content %}
     {% for row in puzzle_page %}
         <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
+            <img src="{{ url_for('static', filename='/assets/cube.png') }}"
+                 class="card-img-top"
+                 alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{ row.display_name }}</h5>
                 <p class="card-text"></p>
@@ -16,23 +18,44 @@
     {% endfor %}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
+            {% if page <= 1 %}
+                {% set left_disabled = "disabled" %}
+            {% else %}
+                {% set left_link = url_for('puzzles.get_puzzle_page_route', page=page-1) %}
+            {% endif %}
             <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                <a class="page-link {{ left_disabled }}"
+                   href="{{ left_link }}"
+                   aria-label="Previous">
+                    <span>&laquo;</span>
                 </a>
             </li>
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ url_for('puzzles.get_puzzle_page_route', page=page-1) }}">{{ page-1 }}</a>
+                </li>
+            {% endif %}
             <li class="page-item">
-                <a class="page-link" href="#">1</a>
+                <a class="page-link active"
+                   href="{{ url_for('puzzles.get_puzzle_page_route', page=page) }}">{{ page }}</a>
             </li>
+            {% if page < num_pages %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ url_for('puzzles.get_puzzle_page_route', page=page+1) }}">{{ page+1 }}</a>
+                </li>
+            {% endif %}
+            {% if page >= num_pages %}
+                {% set right_disabled = "disabled" %}
+            {% else %}
+                {% set right_link = url_for('puzzles.get_puzzle_page_route', page=page+1) %}
+            {% endif %}
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                <a class="page-link {{ right_disabled }}"
+                   href="{{ right_link }}"
+                   aria-label="Next">
+                    <span>&raquo;</span>
                 </a>
             </li>
         </ul>

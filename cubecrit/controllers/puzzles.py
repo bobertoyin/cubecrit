@@ -13,16 +13,21 @@ def get_puzzle_route(external_id: str) -> str:
     with db.connect() as connection:
         puzzle = Puzzle.get_puzzle(connection, external_id)
         if puzzle is None:
-            return abort(404)
+            raise abort(404)
         return render_template("puzzle.html", puzzle=puzzle)
 
 
 @puzzles.route("/", methods=["GET"])
 def get_puzzle_page_route() -> str:
-    page = request.args.get("page")
+    page = validate_page_number(request.args.get("page"))
     with db.connect() as connection:
-        puzzle_page = Puzzle.get_puzzle_page(connection, validate_page_number(page))
-        return render_template("puzzles.html", puzzle_page=puzzle_page)
+        num_pages = Puzzle.get_num_pages(connection)
+        if page > num_pages or page < 1:
+            raise abort(404)
+        puzzle_page = Puzzle.get_puzzle_page(connection, page)
+        return render_template(
+            "puzzles.html", puzzle_page=puzzle_page, page=page, num_pages=num_pages
+        )
 
 
 def validate_page_number(page_number: str | None) -> int:
@@ -30,8 +35,6 @@ def validate_page_number(page_number: str | None) -> int:
         return 1
     try:
         check_num = int(page_number)
-        if check_num <= 0:
-            check_num = 1
         return check_num
     except ValueError:
         return 1
