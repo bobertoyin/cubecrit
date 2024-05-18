@@ -1,11 +1,14 @@
 """Data models for puzzles."""
 from dataclasses import dataclass
 from datetime import date
+from math import ceil
 from typing import Optional
 
 from sqlalchemy import Connection, text
 
 from .manufacturer import Country, Manufacturer
+
+PUZZLES_PER_PAGE = 1
 
 
 @dataclass(frozen=True)
@@ -72,6 +75,13 @@ class Puzzle:
     """The manufacturer of the puzzle."""
 
     @staticmethod
+    def get_num_pages(conn: Connection) -> int:
+        with open("cubecrit/sql/get_num_puzzles.sql") as query:
+            result = conn.execute(text(query.read()))
+            conn.commit()
+            return ceil(list(result)[0].num_puzzles / PUZZLES_PER_PAGE)
+
+    @staticmethod
     def get_puzzle(conn: Connection, external_id: str) -> Optional["Puzzle"]:
         """Get a puzzle from the database given an external ID.
 
@@ -108,3 +118,37 @@ class Puzzle:
                     manufacturer,
                 )
             return None
+
+    @staticmethod
+    def get_puzzle_page(conn: Connection, page_number: int) -> list["Puzzle"]:
+        with open("cubecrit/sql/get_puzzle_page.sql") as query:
+            result = conn.execute(
+                text(query.read()),
+                {
+                    "puzzles_per_page": PUZZLES_PER_PAGE,
+                    "offset": (page_number - 1) * PUZZLES_PER_PAGE,
+                },
+            )
+            conn.commit()
+            puzzle_list = []
+            for row in result:
+                puzzle_type = PuzzleType(
+                    row.puzzle_type_external_id,
+                    row.puzzle_type_display_name,
+                )
+                country = Country(row.country_external_id, row.country_display_name)
+                manufacturer = Manufacturer(
+                    row.manufacturer_external_id,
+                    row.manufacturer_display_name,
+                    country,
+                )
+                puzzle = Puzzle(
+                    row.external_id,
+                    row.display_name,
+                    row.release_date,
+                    row.discontinue_date,
+                    puzzle_type,
+                    manufacturer,
+                )
+                puzzle_list.append(puzzle)
+            return puzzle_list
