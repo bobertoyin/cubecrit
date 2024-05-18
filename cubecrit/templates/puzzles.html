@@ -4,7 +4,7 @@
 {% endblock title %}
 {% block content %}
     {% for row in puzzle_page %}
-        <div class="card" style="width: 18rem;">
+        <div class="card w-25">
             <img src="{{ url_for('static', filename='/assets/cube.png') }}"
                  class="card-img-top"
                  alt="...">
@@ -27,7 +27,7 @@
                 <a class="page-link {{ left_disabled }}"
                    href="{{ left_link }}"
                    aria-label="Previous">
-                    <span>&laquo;</span>
+                    <span>«</span>
                 </a>
             </li>
             {% if page > 1 %}
@@ -55,7 +55,7 @@
                 <a class="page-link {{ right_disabled }}"
                    href="{{ right_link }}"
                    aria-label="Next">
-                    <span>&raquo;</span>
+                    <span>»</span>
                 </a>
             </li>
         </ul>

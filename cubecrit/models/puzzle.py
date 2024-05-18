@@ -76,6 +76,10 @@ class Puzzle:
 
     @staticmethod
     def get_num_pages(conn: Connection) -> int:
+        """Get the total number of pages of puzzles currently in the database.
+
+        Returns the total number of pages.
+        """
         with open("cubecrit/sql/get_num_puzzles.sql") as query:
             result = conn.execute(text(query.read()))
             conn.commit()
@@ -86,8 +90,8 @@ class Puzzle:
         """Get a puzzle from the database given an external ID.
 
         Parameters:
-            - conn: the database connection
-            - external_id: the user-facing identifier
+        - conn: the database connection
+        - external_id: the user-facing identifier
 
         Returns a puzzle, or None if the external ID does not exist.
         """
@@ -121,12 +125,22 @@ class Puzzle:
 
     @staticmethod
     def get_puzzle_page(conn: Connection, page_number: int) -> list["Puzzle"]:
+        """Get a paginated list of puzzles.
+
+        The puzzles are sorted by name in lexicographical order.
+
+        Parameters:
+        - conn: the database connection
+        - page_number: the page number to retrieve
+
+        Returns a list of puzzles for the page.
+        """
         with open("cubecrit/sql/get_puzzle_page.sql") as query:
             result = conn.execute(
                 text(query.read()),
                 {
                     "puzzles_per_page": PUZZLES_PER_PAGE,
-                    "offset": (page_number - 1) * PUZZLES_PER_PAGE,
+                    "puzzles_offset": (page_number - 1) * PUZZLES_PER_PAGE,
                 },
             )
             conn.commit()

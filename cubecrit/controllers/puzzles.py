@@ -14,7 +14,7 @@ def get_puzzle_route(external_id: str) -> str:
     """Get a single puzzle.
 
     Parameters:
-    - external_id: The external ID of the puzzle.
+    - external_id: the external ID of the puzzle
 
     Raises:
     - a 404 error if there is no puzzle found
@@ -30,6 +30,17 @@ def get_puzzle_route(external_id: str) -> str:
 
 @puzzles.route("/", methods=["GET"])
 def get_puzzle_page_route() -> str:
+    """Get a paginated response of all puzzles.
+
+    Query parameters:
+    - page: the page number to retrieve
+            if it's not a valid number or not provided, then we default to the first page
+
+    Raises:
+    - a 404 error if the page number is too large or too small
+
+    Returns an HTML page.
+    """
     page = validate_page_number(request.args.get("page"))
     with db.connect() as connection:
         num_pages = Puzzle.get_num_pages(connection)
@@ -42,6 +53,13 @@ def get_puzzle_page_route() -> str:
 
 
 def validate_page_number(page_number: str | None) -> int:
+    """Validate the user's input for a page number.
+
+    Parameters:
+    - page_number: the page number from the URL
+
+    Returns the user's page number, or 1 if the page number is not provided or can't be parsed to an integer.
+    """
     if page_number is None:
         return 1
     try:

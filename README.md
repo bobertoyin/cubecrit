@@ -50,7 +50,7 @@ poetry run poe flask-debug
 
 ```shell
 # run unit tests
-poetry run poe test
+poetry run pytest
 ```
 
 ## Database Schema
