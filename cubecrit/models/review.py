@@ -12,17 +12,34 @@ from .user import User
 
 @dataclass(frozen=True)
 class Review:
+    """A user-submitted puzzle review."""
+
     user: User
+    """The user who wrote the review."""
     puzzle: Puzzle
+    """The puzzle that is being reviewed."""
     created_at: datetime
+    """When the review was created."""
     updated_at: datetime | None
+    """When the review was last updated."""
     rating: int
+    """The rating associated with the review."""
     content: str | None
+    """The contents of the review."""
 
     @staticmethod
     def get_review(
         conn: Connection, wca_id: str, puzzle_external_id: str
     ) -> Optional["Review"]:
+        """Get a review for a cube by a user.
+
+        Parameters:
+        - conn: the database connection
+        - wca_id: the user's WCA ID
+        - puzzle_external_id: The puzzle's external ID
+
+        Returns a review, or None if the user hasn't reviewed the cube.
+        """
         with open("cubecrit/sql/get_review.sql") as query:
             result = conn.execute(
                 text(query.read()),

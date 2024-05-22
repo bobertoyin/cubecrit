@@ -1,3 +1,4 @@
+"""Routes for manufacturer-related pages."""
 from flask import Blueprint, abort, render_template
 
 from ..db import db
@@ -10,8 +11,18 @@ manufacturers = Blueprint(
 
 @manufacturers.route("/<string:external_id>", methods=["GET"])
 def get_manufacturer_route(external_id: str) -> str:
+    """Get a single manufacturer.
+
+    Parameters:
+    - external_id: The external ID of the manufacturer.
+
+    Raises:
+    - a 404 error if there is no manufacturer found
+
+    Returns an HTML page.
+    """
     with db.connect() as connection:
         manufacturer = Manufacturer.get_manufacturer(connection, external_id)
         if manufacturer is None:
-            return abort(404)
+            raise abort(404)
         return render_template("manufacturer.html", manufacturer=manufacturer)

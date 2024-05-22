@@ -1,4 +1,4 @@
-"""Controllers for the home page."""
+"""Routes for the home page."""
 from flask import Blueprint, render_template
 
 from ..db import db
