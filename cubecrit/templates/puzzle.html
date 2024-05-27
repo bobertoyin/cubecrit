@@ -11,12 +11,16 @@
                      alt="...">
             </div>
             <div class="col">
-                <h1>{{ puzzle.display_name }} - {{ puzzle.puzzle_type.display_name }}</h1>
+                <h1>{{ puzzle.manufacturer.display_name }} {{ puzzle.display_name }} - {{ puzzle.puzzle_type.display_name }}</h1>
                 <h3>
                     <a href="{{ url_for('manufacturers.get_manufacturer_route', external_id=puzzle.manufacturer.external_id) }}">{{ puzzle.manufacturer.display_name }}</a>
                 </h3>
-                <p>Release Date: {{ puzzle.release_date.strftime("%B %d, %Y") }}</p>
-                <p>Discontinued: {{ puzzle.discontinue_date.strftime("%B %d, %Y") }}</p>
+                {% if puzzle.release_date %}
+                    <p>Release Date: {{ puzzle.release_date.strftime("%B %d, %Y") }}</p>
+                {% endif %}
+                {% if puzzle.discontinue_date %}
+                    <p>Discontinued: {{ puzzle.discontinue_date.strftime("%B %d, %Y") }}</p>
+                {% endif %}
             </div>
         </div>
     </div>
