@@ -1,7 +1,6 @@
 """Routes for manufacturer-related pages."""
-from flask import Blueprint, abort, render_template
+from flask import Blueprint, abort, current_app, render_template
 
-from ..db import db
 from ..models.manufacturer import Manufacturer
 
 manufacturers = Blueprint(
@@ -21,7 +20,7 @@ def get_manufacturer_route(external_id: str) -> str:
 
     Returns an HTML page.
     """
-    with db.connect() as connection:
+    with current_app.config["db"].connect() as connection:
         manufacturer = Manufacturer.get_manufacturer(connection, external_id)
         if manufacturer is None:
             raise abort(404)

@@ -1,6 +1,7 @@
 from io import BytesIO, StringIO
 from unittest.mock import MagicMock, call, patch
 
+from flask import Flask
 from pytest import mark
 
 from cubecrit.sync import (
@@ -9,6 +10,7 @@ from cubecrit.sync import (
     _extract_data,
     _replace_empty_string,
     _sync_data_delegate,
+    scheduler,
     sync_data,
     sync_data_with_conn,
 )
@@ -121,15 +123,15 @@ def test_sync_data_with_conn(mock_connection: MagicMock, mock_delegate: MagicMoc
 
 
 @patch("cubecrit.sync.sync_data_with_conn")
-@patch("cubecrit.db.db.connect")
-def test_sync_data(mock_connect: MagicMock, mock_sync_with_conn: MagicMock):
+def test_sync_data(mock_sync_with_conn: MagicMock):
     # arrange
-    mock_connection = MagicMock()
-    mock_connect.return_value = mock_connection
+    mock_engine = MagicMock()
+    app = Flask(__name__)
+    app.config["db"] = mock_engine
+    scheduler.init_app(app)
 
     # act
     sync_data()
 
     # assert
-    mock_connect.assert_called_once()
-    mock_sync_with_conn.assert_called_once_with(mock_connection.__enter__())
+    mock_sync_with_conn.assert_called_once_with(mock_engine.connect().__enter__())

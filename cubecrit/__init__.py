@@ -1,14 +1,13 @@
 """Entry point for the application."""
+from os import environ
 
 from flask import Flask
-from flask_apscheduler import APScheduler
-from sqlalchemy import text
+from sqlalchemy import create_engine, text
 
 from .controllers.index import index
 from .controllers.manufacturers import manufacturers
 from .controllers.puzzles import puzzles
-from .db import db
-from .sync import sync_data, sync_data_with_conn
+from .sync import scheduler, sync_data_with_conn
 
 
 def create_app() -> Flask:
@@ -16,23 +15,25 @@ def create_app() -> Flask:
 
     Returns the configured flask application object.
     """
+    db_addr = environ.get("DB_ADDRESS")
+
+    if db_addr is None:
+        raise Exception("missing DB_ADDRESS")
+
     app = Flask(__name__)
+    app.config["db"] = create_engine(db_addr)
     app.register_blueprint(index)
     app.register_blueprint(manufacturers)
     app.register_blueprint(puzzles)
 
-    with db.connect() as connection:
+    with app.config["db"].connect() as connection:
         with app.open_resource("sql/schema.sql") as schema:
             schema_content = str(schema.read(), encoding="utf8")  # type: ignore[call-overload]
             connection.execute(text(schema_content))
             connection.commit()
         sync_data_with_conn(connection)
 
-    scheduler = APScheduler()
     scheduler.init_app(app)
-    scheduler.add_job(
-        "sync_data", sync_data, max_instances=1, trigger="cron", hour="0", minute="0"
-    )
     with app.app_context():
         scheduler.start()
 
