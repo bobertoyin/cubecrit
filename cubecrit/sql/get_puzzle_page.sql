@@ -16,5 +16,8 @@ INNER JOIN manufacturer
     ON puzzle.manufacturer_id = manufacturer.id
 INNER JOIN country
     ON manufacturer.country_id = country.id
+WHERE
+    (:puzzle_type IS NULL OR puzzle_type.external_id = :puzzle_type)
+    AND (:q IS NULL OR LOWER(puzzle.display_name) LIKE CONCAT('%', :q, '%'))
 ORDER BY puzzle.display_name
 LIMIT :puzzles_per_page OFFSET :puzzles_offset;

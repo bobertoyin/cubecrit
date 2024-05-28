@@ -124,7 +124,12 @@ class Puzzle:
             return None
 
     @staticmethod
-    def get_puzzle_page(conn: Connection, page_number: int) -> list["Puzzle"]:
+    def get_puzzle_page(
+        conn: Connection,
+        page_number: int,
+        puzzle_type: str | None = None,
+        q: str | None = None,
+    ) -> list["Puzzle"]:
         """Get a paginated list of puzzles.
 
         The puzzles are sorted by name in lexicographical order.
@@ -141,12 +146,14 @@ class Puzzle:
                 {
                     "puzzles_per_page": PUZZLES_PER_PAGE,
                     "puzzles_offset": (page_number - 1) * PUZZLES_PER_PAGE,
+                    "puzzle_type": puzzle_type,
+                    "q": q,
                 },
             )
             conn.commit()
             puzzle_list = []
             for row in result:
-                puzzle_type = PuzzleType(
+                puzzle_t = PuzzleType(
                     row.puzzle_type_external_id,
                     row.puzzle_type_display_name,
                 )
@@ -161,7 +168,7 @@ class Puzzle:
                     row.display_name,
                     row.release_date,
                     row.discontinue_date,
-                    puzzle_type,
+                    puzzle_t,
                     manufacturer,
                 )
                 puzzle_list.append(puzzle)
