@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS manufacturer (
     id SERIAL PRIMARY KEY,
     external_id VARCHAR UNIQUE NOT NULL,
     display_name VARCHAR NOT NULL,
-    country_id INT UNIQUE NOT NULL,
+    country_id INT NOT NULL,
     picture_url VARCHAR,
     CONSTRAINT fk_country
     FOREIGN KEY (country_id)

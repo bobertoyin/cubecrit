@@ -16,5 +16,5 @@ INNER JOIN manufacturer
     ON puzzle.manufacturer_id = manufacturer.id
 INNER JOIN country
     ON manufacturer.country_id = country.id
-ORDER BY puzzle.display_name
+ORDER BY manufacturer.display_name, puzzle.display_name
 LIMIT :puzzles_per_page OFFSET :puzzles_offset;
