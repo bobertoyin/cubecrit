@@ -22,6 +22,9 @@ poetry run poe format
 
 # run linters/apply checks
 poetry run poe lint
+
+# run tests
+poetry run pytest
 ```
 
 #### Running Locally
@@ -38,13 +41,6 @@ $Env:DB_ADDRESS="postgresql://cubecrit:password@localhost:5432/cubecrit"
 
 # start the debug server on localhost:3000
 poetry run poe flask-debug
-```
-
-#### Tests
-
-```shell
-# run unit tests
-poetry run pytest
 ```
 
 ## Database Schema
