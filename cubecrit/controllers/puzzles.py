@@ -1,7 +1,6 @@
 """Routes for puzzle-related pages."""
-from flask import Blueprint, abort, render_template, request
+from flask import Blueprint, abort, current_app, render_template, request
 
-from ..db import db
 from ..models.puzzle import Puzzle
 
 puzzles = Blueprint(
@@ -21,7 +20,7 @@ def get_puzzle_route(external_id: str) -> str:
 
     Returns an HTML page.
     """
-    with db.connect() as connection:
+    with current_app.config["db"].connect() as connection:
         puzzle = Puzzle.get_puzzle(connection, external_id)
         if puzzle is None:
             raise abort(404)
@@ -42,7 +41,7 @@ def get_puzzle_page_route() -> str:
     Returns an HTML page.
     """
     page = validate_page_number(request.args.get("page"))
-    with db.connect() as connection:
+    with current_app.config["db"].connect() as connection:
         num_pages = Puzzle.get_num_pages(connection)
         if page > num_pages or page < 1:
             raise abort(404)

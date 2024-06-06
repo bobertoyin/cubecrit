@@ -9,7 +9,7 @@
                  class="card-img-top"
                  alt="...">
             <div class="card-body">
-                <h5 class="card-title">{{ row.display_name }}</h5>
+                <h5 class="card-title">{{ row.manufacturer.display_name }} {{ row.display_name }}</h5>
                 <p class="card-text"></p>
                 <a href="{{ url_for('puzzles.get_puzzle_route', external_id=row.external_id) }}"
                    class="btn btn-primary">Check it out!</a>

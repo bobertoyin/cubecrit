@@ -19,5 +19,5 @@ INNER JOIN country
 WHERE
     (:puzzle_type IS NULL OR puzzle_type.external_id = :puzzle_type)
     AND (:q IS NULL OR LOWER(puzzle.display_name) LIKE CONCAT('%', :q, '%'))
-ORDER BY puzzle.display_name
+ORDER BY manufacturer.display_name, puzzle.display_name
 LIMIT :puzzles_per_page OFFSET :puzzles_offset;

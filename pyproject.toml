@@ -11,6 +11,7 @@ flask = "^3.0.2"
 sqlalchemy = "^2.0.26"
 psycopg2 = "^2.9.9"
 immutabledict = "^4.1.0"
+flask-apscheduler = "^1.13.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
@@ -64,6 +65,10 @@ templater = "placeholder"
 
 [tool.sqlfluff.templater.placeholder]
 param_style = "colon" # allows us to use unquoted pqsl variables
+
+[[tool.mypy.overrides]]
+module = "flask_apscheduler"
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core"]

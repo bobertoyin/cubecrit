@@ -22,6 +22,9 @@ poetry run poe format
 
 # run linters/apply checks
 poetry run poe lint
+
+# run tests
+poetry run pytest
 ```
 
 #### Running Locally
@@ -31,26 +34,13 @@ poetry run poe lint
 docker compose up db
 
 # set environment variables
-export DB_ADDRESS=localhost:5432
-export DB_PASSWORD=password
-# set this one if you want to seed the db with example data
-export DB_SEED=1
+export DB_ADDRESS="postgresql://cubecrit:password@localhost:5432/cubecrit"
 
 # set environment variables for powershell
-$Env:DB_ADDRESS="localhost:5432"
-$Env:DB_PASSWORD="password"
-# set this one if you want to seed the db with example data
-$Env:DB_SEED=1
+$Env:DB_ADDRESS="postgresql://cubecrit:password@localhost:5432/cubecrit"
 
 # start the debug server on localhost:3000
 poetry run poe flask-debug
-```
-
-#### Tests
-
-```shell
-# run unit tests
-poetry run pytest
 ```
 
 ## Database Schema
