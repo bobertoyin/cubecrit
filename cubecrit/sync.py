@@ -4,18 +4,20 @@ from io import TextIOWrapper
 from typing import Any, TypeAlias
 from urllib.request import urlopen
 
+from flask_apscheduler import APScheduler
 from sqlalchemy import Connection, text
-
-from .db import db
 
 DATA_URL = "https://raw.githubusercontent.com/bobertoyin/cubecrit-data/main"
 
 CSVRow: TypeAlias = dict[str | Any, str | Any | None]
 
+scheduler = APScheduler()
 
+
+@scheduler.task("cron", max_instances=1, hour="0", minute="0")
 def sync_data():
     """Synchronize the database with data from `cubecrit-data`."""
-    with db.connect() as conn:
+    with scheduler.app.config["db"].connect() as conn:
         sync_data_with_conn(conn)
 
 
