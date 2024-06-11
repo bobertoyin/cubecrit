@@ -7,6 +7,7 @@ from sqlalchemy import create_engine, text
 from .controllers.index import index
 from .controllers.manufacturers import manufacturers
 from .controllers.puzzles import puzzles
+from .controllers.search import search
 from .sync import scheduler, sync_data_with_conn
 
 
@@ -25,6 +26,7 @@ def create_app() -> Flask:
     app.register_blueprint(index)
     app.register_blueprint(manufacturers)
     app.register_blueprint(puzzles)
+    app.register_blueprint(search)
 
     with app.config["db"].connect() as connection:
         with app.open_resource("sql/schema.sql") as schema:

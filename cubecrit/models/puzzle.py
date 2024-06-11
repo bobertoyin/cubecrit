@@ -8,7 +8,7 @@ from sqlalchemy import Connection, text
 
 from .manufacturer import Country, Manufacturer
 
-PUZZLES_PER_PAGE = 1
+PUZZLES_PER_PAGE = 10
 
 
 @dataclass(frozen=True)
@@ -75,13 +75,21 @@ class Puzzle:
     """The manufacturer of the puzzle."""
 
     @staticmethod
-    def get_num_pages(conn: Connection) -> int:
+    def get_num_pages(
+        conn: Connection, q: str | None = None, puzzle_type: str | None = None
+    ) -> int:
         """Get the total number of pages of puzzles currently in the database.
 
         Returns the total number of pages.
         """
         with open("cubecrit/sql/get_num_puzzles.sql") as query:
-            result = conn.execute(text(query.read()))
+            result = conn.execute(
+                text(query.read()),
+                {
+                    "puzzle_type": puzzle_type,
+                    "q": q,
+                },
+            )
             conn.commit()
             return ceil(list(result)[0].num_puzzles / PUZZLES_PER_PAGE)
 
@@ -124,7 +132,12 @@ class Puzzle:
             return None
 
     @staticmethod
-    def get_puzzle_page(conn: Connection, page_number: int) -> list["Puzzle"]:
+    def get_puzzle_page(
+        conn: Connection,
+        page_number: int,
+        puzzle_type: str | None = None,
+        q: str | None = None,
+    ) -> list["Puzzle"]:
         """Get a paginated list of puzzles.
 
         The puzzles are sorted by name in lexicographical order.
@@ -141,12 +154,14 @@ class Puzzle:
                 {
                     "puzzles_per_page": PUZZLES_PER_PAGE,
                     "puzzles_offset": (page_number - 1) * PUZZLES_PER_PAGE,
+                    "puzzle_type": puzzle_type,
+                    "q": q,
                 },
             )
             conn.commit()
             puzzle_list = []
             for row in result:
-                puzzle_type = PuzzleType(
+                puzzle_t = PuzzleType(
                     row.puzzle_type_external_id,
                     row.puzzle_type_display_name,
                 )
@@ -161,7 +176,7 @@ class Puzzle:
                     row.display_name,
                     row.release_date,
                     row.discontinue_date,
-                    puzzle_type,
+                    puzzle_t,
                     manufacturer,
                 )
                 puzzle_list.append(puzzle)
