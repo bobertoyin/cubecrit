@@ -5,7 +5,7 @@
 {% block content %}
     <form class="d-flex"
           action="{{ url_for("search.get_search_route") }}"
-          method="GET">
+          method="get">
         <select class="form-select"
                 aria-label="Filter By Puzzle Type"
                 name="puzzle_type">

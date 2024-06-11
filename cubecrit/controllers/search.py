@@ -1,4 +1,4 @@
-""" Routes for search pages. """
+"""Routes for search pages."""
 from flask import Blueprint, abort, current_app, render_template, request
 
 from ..controllers.puzzles import validate_page_number
