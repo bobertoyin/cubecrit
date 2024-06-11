@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, current_app
+""" Routes for search pages. """
+from flask import Blueprint, abort, current_app, render_template, request
 
-from ..models.puzzle import Puzzle
+from ..controllers.puzzles import validate_page_number
+from ..models.puzzle import Puzzle, PuzzleType
 
 search = Blueprint(
     "search", __name__, template_folder="templates", url_prefix="/search"
@@ -9,12 +11,34 @@ search = Blueprint(
 
 @search.route("/", methods=["GET"])
 def get_search_route() -> str:
+    """Get a search for puzzles.
+
+    Raises:
+    - a 404 error if the page number is invalid.
+
+    Returns an HTML page.
+    """
     puzzle_type = request.args.get("puzzle_type")
-    if puzzle_type and puzzle_type.strip() == "":
+    page = validate_page_number(request.args.get("page"))
+    print(type(puzzle_type))
+    if puzzle_type is not None and puzzle_type.strip() == "":
         puzzle_type = None
+    print(type(puzzle_type))
     query = request.args.get("query")
-    if query and query.strip() == "":
+    if query is not None and query.strip() == "":
         query = None
     with current_app.config["db"].connect() as connection:
-        puzzles = Puzzle.get_puzzle_page(connection, 1, puzzle_type, query)
-        return render_template("search.html", puzzles=puzzles)
+        all_puzzle_types = PuzzleType.get_all_puzzle_types(connection)
+        num_pages = Puzzle.get_num_pages(connection, query, puzzle_type)
+        if page < 1:
+            raise abort(404)
+        puzzles = Puzzle.get_puzzle_page(connection, page, puzzle_type, query)
+        return render_template(
+            "search.html",
+            puzzles=puzzles,
+            query=query,
+            num_pages=num_pages,
+            all_puzzle_types=all_puzzle_types,
+            page=page,
+            puzzle_type=puzzle_type,
+        )
