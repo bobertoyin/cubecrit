@@ -1,8 +1,8 @@
 """Routes for search pages."""
 from flask import Blueprint, abort, current_app, render_template, request
 
-from ..validate import validate_page_number, validate_query
 from ..models.puzzle import Puzzle, PuzzleType
+from ..validate import validate_page_number, validate_query
 
 search = Blueprint(
     "search", __name__, template_folder="templates", url_prefix="/search"
