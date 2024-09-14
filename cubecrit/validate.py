@@ -13,3 +13,19 @@ def validate_page_number(page_number: str | None) -> int:
         return check_num
     except ValueError:
         return 1
+    
+def validate_query(query: str | None) -> str | None:
+    """Validate the user's input for query.
+    
+    Parameters:
+    - query: the user's input from the URL
+    
+    Returns the user's query with whitespace removed, or None if there is nothing in the query.
+    """
+
+    if query is None:
+        return query
+    stripped_query = query.strip()
+    if stripped_query == "":
+            return None
+    return stripped_query

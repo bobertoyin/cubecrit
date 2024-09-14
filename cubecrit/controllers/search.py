@@ -1,7 +1,7 @@
 """Routes for search pages."""
 from flask import Blueprint, abort, current_app, render_template, request
 
-from ..controllers.puzzles import validate_page_number
+from ..validate import validate_page_number, validate_query
 from ..models.puzzle import Puzzle, PuzzleType
 
 search = Blueprint(
@@ -22,11 +22,7 @@ def get_search_route() -> str:
     page = validate_page_number(request.args.get("page"))
     if puzzle_type is not None and puzzle_type.strip() == "":
         puzzle_type = None
-    query = request.args.get("query")
-    if query is not None:
-        query = query.strip()
-        if query == "":
-            query = None
+    query = validate_query(request.args.get("query"))
     with current_app.config["db"].connect() as connection:
         all_puzzle_types = PuzzleType.get_all_puzzle_types(connection)
         num_pages = Puzzle.get_num_pages(connection, query, puzzle_type)
