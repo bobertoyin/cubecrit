@@ -2,6 +2,7 @@
 from flask import Blueprint, abort, current_app, render_template, request
 
 from ..models.puzzle import Puzzle
+from ..validate import validate_page_number
 
 puzzles = Blueprint(
     "puzzles", __name__, template_folder="templates", url_prefix="/puzzles"
@@ -49,20 +50,3 @@ def get_puzzle_page_route() -> str:
         return render_template(
             "puzzles.html", puzzle_page=puzzle_page, page=page, num_pages=num_pages
         )
-
-
-def validate_page_number(page_number: str | None) -> int:
-    """Validate the user's input for a page number.
-
-    Parameters:
-    - page_number: the page number from the URL
-
-    Returns the user's page number, or 1 if the page number is not provided or can't be parsed to an integer.
-    """
-    if page_number is None:
-        return 1
-    try:
-        check_num = int(page_number)
-        return check_num
-    except ValueError:
-        return 1
