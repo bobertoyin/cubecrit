@@ -2,7 +2,7 @@
 from flask import Blueprint, abort, current_app, render_template, request
 
 from ..models.puzzle import Puzzle, PuzzleType
-from ..validate import validate_page_number, validate_query
+from ..validate import validate_page_number, validate_url_param
 
 search = Blueprint(
     "search", __name__, template_folder="templates", url_prefix="/search"
@@ -18,10 +18,8 @@ def get_search_route() -> str:
 
     Returns an HTML page.
     """
-    puzzle_type = request.args.get("puzzle_type")
-    if puzzle_type is not None and puzzle_type.strip() == "":
-        puzzle_type = None
-    query = validate_query(request.args.get("query"))
+    puzzle_type = validate_url_param(request.args.get("puzzle_type"))
+    query = validate_url_param(request.args.get("query"))
     with current_app.config["db"].connect() as connection:
         all_puzzle_types = PuzzleType.get_all_puzzle_types(connection)
         num_pages = Puzzle.get_num_pages(connection, query, puzzle_type)

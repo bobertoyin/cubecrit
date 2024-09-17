@@ -23,17 +23,17 @@ def validate_page_number(page_number: str | None, num_pages: int) -> int:
     return check_num
 
 
-def validate_query(query: str | None) -> str | None:
-    """Validate the user's input for query.
+def validate_url_param(param: str | None) -> str | None:
+    """Validate the URL parameter.
 
     Parameters:
-    - query: the user's input from the URL
+    - param: the URL parameter
 
-    Returns the user's query with whitespace removed, or None if there is nothing in the query.
+    Returns the URL parameter with whitespace removed, or None if there is nothing in the parameter.
     """
-    if query is None:
-        return query
-    stripped_query = query.strip()
-    if stripped_query == "":
+    if param is None:
+        return param
+    stripped_param = param.strip()
+    if stripped_param == "":
         return None
-    return stripped_query
+    return stripped_param

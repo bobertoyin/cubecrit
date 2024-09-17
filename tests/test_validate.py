@@ -1,6 +1,6 @@
 from pytest import mark, raises
 
-from cubecrit.validate import validate_page_number, validate_query
+from cubecrit.validate import validate_page_number, validate_url_param
 
 
 @mark.parametrize(
@@ -25,7 +25,7 @@ def test_validate_page_number_error(page_number: str | None, num_pages: int):
 
 
 @mark.parametrize(
-    "query, expected",
+    "param, expected",
     [
         ("  aolong ", "aolong"),
         ("aolong", "aolong"),
@@ -34,6 +34,6 @@ def test_validate_page_number_error(page_number: str | None, num_pages: int):
         ("   ", None),
     ],
 )
-def test_validate_query(query: str | None, expected: str | None):
-    result = validate_query(query)
+def test_validate_url_param(param: str | None, expected: str | None):
+    result = validate_url_param(param)
     assert result == expected
