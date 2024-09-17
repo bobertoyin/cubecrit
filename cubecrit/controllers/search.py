@@ -19,14 +19,15 @@ def get_search_route() -> str:
     Returns an HTML page.
     """
     puzzle_type = request.args.get("puzzle_type")
-    page = validate_page_number(request.args.get("page"))
     if puzzle_type is not None and puzzle_type.strip() == "":
         puzzle_type = None
     query = validate_query(request.args.get("query"))
     with current_app.config["db"].connect() as connection:
         all_puzzle_types = PuzzleType.get_all_puzzle_types(connection)
         num_pages = Puzzle.get_num_pages(connection, query, puzzle_type)
-        if page < 1:
+        try:
+            page = validate_page_number(request.args.get("page"), num_pages)
+        except ValueError:
             raise abort(404)
         puzzles = Puzzle.get_puzzle_page(connection, page, puzzle_type, query)
         return render_template(

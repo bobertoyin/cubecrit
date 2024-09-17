@@ -41,10 +41,11 @@ def get_puzzle_page_route() -> str:
 
     Returns an HTML page.
     """
-    page = validate_page_number(request.args.get("page"))
     with current_app.config["db"].connect() as connection:
         num_pages = Puzzle.get_num_pages(connection)
-        if page > num_pages or page < 1:
+        try:
+            page = validate_page_number(request.args.get("page"), num_pages)
+        except ValueError:
             raise abort(404)
         puzzle_page = Puzzle.get_puzzle_page(connection, page)
         return render_template(
