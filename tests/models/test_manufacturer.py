@@ -37,11 +37,11 @@ def test_get_country(
 @mark.parametrize(
     "external_id, expected",
     [
-        ("moyu", Manufacturer("moyu", "Moyu", Country("china", "China"))),
+        ("moyu", Manufacturer("moyu", "Moyu", Country("china", "China"),"moyu")),
         ("MOYU", None),
         (
             "rubiks",
-            Manufacturer("rubiks", "Rubik's Brand Ltd", Country("canada", "Canada")),
+            Manufacturer("rubiks", "Rubik's Brand Ltd", Country("canada", "Canada"),"rubik"),
         ),
         ("bruh", None),
     ],

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS manufacturer (
     display_name VARCHAR NOT NULL,
     country_id INT NOT NULL,
     picture_url VARCHAR,
+    bio VARCHAR,
     CONSTRAINT fk_country
     FOREIGN KEY (country_id)
     REFERENCES country (id)

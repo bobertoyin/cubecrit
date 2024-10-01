@@ -7,7 +7,7 @@ from urllib.request import urlopen
 from flask_apscheduler import APScheduler
 from sqlalchemy import Connection, text
 
-DATA_URL = "https://raw.githubusercontent.com/bobertoyin/cubecrit-data/main"
+DATA_URL = "https://raw.githubusercontent.com/bobertoyin/cubecrit-data/added-bio"
 
 CSVRow: TypeAlias = dict[str | Any, str | Any | None]
 

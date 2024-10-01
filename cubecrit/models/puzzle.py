@@ -120,6 +120,7 @@ class Puzzle:
                     result.manufacturer_external_id,
                     result.manufacturer_display_name,
                     country,
+                    result.manufacturer_bio,
                 )
                 return Puzzle(
                     result.external_id,
@@ -137,6 +138,7 @@ class Puzzle:
         page_number: int,
         puzzle_type: str | None = None,
         q: str | None = None,
+        manufacturer: Manufacturer | None = None,
     ) -> list["Puzzle"]:
         """Get a paginated list of puzzles.
 
@@ -148,6 +150,10 @@ class Puzzle:
 
         Returns a list of puzzles for the page.
         """
+        if manufacturer is not None:
+            manufacturer_external_id = manufacturer.external_id
+        else:
+            manufacturer_external_id = None
         with open("cubecrit/sql/get_puzzle_page.sql") as query:
             result = conn.execute(
                 text(query.read()),
@@ -156,6 +162,7 @@ class Puzzle:
                     "puzzles_offset": (page_number - 1) * PUZZLES_PER_PAGE,
                     "puzzle_type": puzzle_type,
                     "q": q,
+                    "manufacturer_external_id": manufacturer_external_id,
                 },
             )
             conn.commit()
@@ -170,6 +177,7 @@ class Puzzle:
                     row.manufacturer_external_id,
                     row.manufacturer_display_name,
                     country,
+                    row.manufacturer_bio,
                 )
                 puzzle = Puzzle(
                     row.external_id,
