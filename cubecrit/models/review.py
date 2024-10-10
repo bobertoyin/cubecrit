@@ -58,6 +58,7 @@ class Review:
                     result.manufacturer_external_id,
                     result.manufacturer_display_name,
                     country,
+                    result.manufacturer_bio,
                 )
                 puzzle = Puzzle(
                     result.puzzle_external_id,
