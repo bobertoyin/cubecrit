@@ -3,7 +3,7 @@ INSERT INTO manufacturer (
 )
 VALUES (:external_id, :display_name, (
     SELECT country.id AS country_id FROM country
-    WHERE country.external_id = country.:country_external_id
+    WHERE country.external_id = :country_external_id
 ), :picture_url, :bio)
 ON CONFLICT (external_id) DO UPDATE
 SET
