@@ -76,18 +76,26 @@ class Puzzle:
 
     @staticmethod
     def get_num_pages(
-        conn: Connection, q: str | None = None, puzzle_type: str | None = None
+        conn: Connection,
+        q: str | None = None,
+        puzzle_type: str | None = None,
+        manufacturer: Manufacturer | None = None,
     ) -> int:
         """Get the total number of pages of puzzles currently in the database.
 
         Returns the total number of pages.
         """
+        if manufacturer is not None:
+            manufacturer_external_id = manufacturer.external_id
+        else:
+            manufacturer_external_id = None
         with open("cubecrit/sql/get_num_puzzles.sql") as query:
             result = conn.execute(
                 text(query.read()),
                 {
                     "puzzle_type": puzzle_type,
                     "q": q,
+                    "manufacturer_external_id": manufacturer_external_id,
                 },
             )
             conn.commit()

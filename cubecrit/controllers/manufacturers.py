@@ -23,10 +23,10 @@ def get_manufacturer_route(external_id: str) -> str:
     Returns an HTML page.
     """
     with current_app.config["db"].connect() as connection:
-        num_pages = Puzzle.get_num_pages(connection)
         manufacturer = Manufacturer.get_manufacturer(connection, external_id)
         if manufacturer is None:
             raise abort(404)
+        num_pages = Puzzle.get_num_pages(connection, manufacturer=manufacturer)
         try:
             page = validate_page_number(request.args.get("page"), num_pages)
         except ValueError:
