@@ -25,6 +25,9 @@ poetry run poe lint
 
 # run tests
 poetry run pytest
+
+# build docker container
+docker build -t cubecrit .
 ```
 
 #### Running Locally
@@ -41,6 +44,9 @@ $Env:DB_ADDRESS="postgresql://cubecrit:password@localhost:5432/cubecrit"
 
 # start the debug server on localhost:3000
 poetry run poe flask-debug
+
+# run docker containr
+docker run -p 3000:3000 -e DB_ADDRESS=postgresql://cubecrit:password@host.docker.internal:5432/cubecrit cubecrit
 ```
 
 ## Database Schema
