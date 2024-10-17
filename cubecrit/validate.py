@@ -19,7 +19,7 @@ def validate_page_number(page_number: str | None, num_pages: int) -> int:
     except ValueError:
         return 1
     if check_num > num_pages or check_num < 1:
-        raise ValueError()
+        raise ValueError
     return check_num
 
 
