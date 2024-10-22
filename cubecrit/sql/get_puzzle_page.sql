@@ -7,6 +7,7 @@ SELECT
     puzzle.discontinue_date,
     manufacturer.external_id AS manufacturer_external_id,
     manufacturer.display_name AS manufacturer_display_name,
+    manufacturer.bio AS manufacturer_bio,
     country.external_id AS country_external_id,
     country.display_name AS country_display_name
 FROM puzzle
@@ -19,5 +20,9 @@ INNER JOIN country
 WHERE
     (:puzzle_type IS NULL OR puzzle_type.external_id = :puzzle_type)
     AND (:q IS NULL OR LOWER(puzzle.display_name) LIKE CONCAT('%', :q, '%'))
+    AND (
+        :manufacturer_external_id IS NULL
+        OR manufacturer.external_id = :manufacturer_external_id
+    )
 ORDER BY manufacturer.display_name, puzzle.display_name
 LIMIT :puzzles_per_page OFFSET :puzzles_offset;

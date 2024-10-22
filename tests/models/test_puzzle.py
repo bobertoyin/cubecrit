@@ -79,7 +79,7 @@ def test_get_all_puzzle_types(mock_connection: MagicMock, expected: list[PuzzleT
                 date(2020, 5, 1),
                 date(2020, 5, 1),
                 PuzzleType("3x3", "3x3"),
-                Manufacturer("moyu", "MoYu", Country("china", "China")),
+                Manufacturer("moyu", "MoYu", Country("china", "China"), "moyu"),
             ),
         ),
         (
@@ -90,7 +90,7 @@ def test_get_all_puzzle_types(mock_connection: MagicMock, expected: list[PuzzleT
                 date(2014, 6, 1),
                 date(2018, 6, 1),
                 PuzzleType("3x3", "3x3"),
-                Manufacturer("moyu", "MoYu", Country("china", "China")),
+                Manufacturer("moyu", "MoYu", Country("china", "China"), "moyu"),
             ),
         ),
         ("RS3 M 2020", None),
@@ -111,6 +111,7 @@ def test_get_puzzle(
                 "puzzle_type_display_name": expected.puzzle_type.display_name,
                 "manufacturer_external_id": expected.manufacturer.external_id,
                 "manufacturer_display_name": expected.manufacturer.display_name,
+                "manufacturer_bio": expected.manufacturer.bio,
                 "country_external_id": expected.manufacturer.country.external_id,
                 "country_display_name": expected.manufacturer.country.display_name,
             }
