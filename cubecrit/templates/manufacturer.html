@@ -4,7 +4,7 @@
 {% endblock title %}
 {% block content %}
     <h1 class="display-2 text-center">{{ manufacturer.display_name }}</h1>
-    <blockquote class="blockquote text-bg-light p-3 w-75 m-auto mb-3">
+    <blockquote class="blockquote bg-body-tertiary p-3 w-75 m-auto mb-3">
         <p>{{ manufacturer.bio }}</p>
     </blockquote>
     <hr>
@@ -12,13 +12,16 @@
         {% for row in puzzle_page %}
             <div class="col-lg-3 col-6">
                 <div class="card">
-                    <img src="{{ url_for('static', filename='/assets/cube.png') }}"
-                         class="card-img-top"
-                         style="width: 100px"
-                         alt="...">
+                    <div class="row">
+                        <div class="col-6 col-sm-4">
+                            <img src="{{ url_for('static', filename='/assets/cube.png') }}"
+                                 class="card-img-top"
+                                 alt="{{ row.display_name }}"
+                                 title="{{ row.display_name }}">
+                        </div>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ row.manufacturer.display_name }} {{ row.display_name }}</h5>
-                        <p class="card-text"></p>
                         <a href="{{ url_for('puzzles.get_puzzle_route', external_id=row.external_id) }}"
                            class="btn btn-primary">Check it out!</a>
                     </div>
@@ -26,9 +29,7 @@
             </div>
         {% endfor %}
     </div>
-    <nav aria-label="Page navigation example"
-         style="display: block"
-         class="m-auto">
+    <nav aria-label="Page navigation example" class="m-auto">
         <ul class="pagination">
             {% if page <= 1 %}
                 {% set left_disabled = "disabled" %}
