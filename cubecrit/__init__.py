@@ -16,10 +16,7 @@ def create_app() -> Flask:
 
     Returns the configured flask application object.
     """
-    db_addr = environ.get("DB_ADDRESS")
-
-    if db_addr is None:
-        raise Exception("missing DB_ADDRESS")
+    db_addr = environ["DB_ADDRESS"]
 
     app = Flask(__name__)
     app.config["db"] = create_engine(db_addr)

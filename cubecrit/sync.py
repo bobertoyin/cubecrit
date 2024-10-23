@@ -15,13 +15,13 @@ scheduler = APScheduler()
 
 
 @scheduler.task("cron", max_instances=1, hour="0", minute="0")
-def sync_data():
+def sync_data() -> None:
     """Synchronize the database with data from `cubecrit-data`."""
     with scheduler.app.config["db"].connect() as conn:
         sync_data_with_conn(conn)
 
 
-def sync_data_with_conn(conn: Connection):
+def sync_data_with_conn(conn: Connection) -> None:
     """Synchronize the database with data from `cubecrit-data` and a database connection.
 
     Parameters:
@@ -34,7 +34,7 @@ def sync_data_with_conn(conn: Connection):
     conn.commit()
 
 
-def _sync_data_delegate(conn: Connection, name: str):
+def _sync_data_delegate(conn: Connection, name: str) -> None:
     """Delegate synchronizing database data from `cubecrit-data`.
 
     Parameters:
@@ -59,7 +59,8 @@ def _extract_data(name: str) -> list[CSVRow]:
     # open file from url -> buffer the text stream -> read CSV into list of dictionaries -> handle empty string values
     return [
         _replace_empty_string(row)
-        for row in DictReader(TextIOWrapper(urlopen(f"{DATA_URL}/{name}.csv")))
+        # suppressing lint because we're going to move away from remote CSV soon
+        for row in DictReader(TextIOWrapper(urlopen(f"{DATA_URL}/{name}.csv")))  # noqa: S310
     ]
 
 

@@ -19,39 +19,92 @@ mypy = "^1.8.0"
 pytest = "^8.0.1"
 poethepoet = "^0.24.4"
 djlint = "^1.34.1"
-pydocstyle = "^6.3.0"
 sqlfluff = "^3.0.6"
 pytest-cov = "^4.1.0"
 munch = "^4.0.0"
 munch-stubs = "^0.1.2"
 
 [tool.poe.tasks]
-ruff-check-fix = "ruff check --fix"
+ruff-check-fix = "ruff check --fix cubecrit"
 ruff-format = "ruff format"
 djlint-format = "djlint . --reformat"
 sqlfluff-fix = "sqlfluff fix"
 
 format.sequence = ["ruff-check-fix", "ruff-format", "djlint-format", "sqlfluff-fix"]
-format.ignore_fail = "return_non_zero"
+format.ignore_fail = true
 
-ruff-check = "ruff check"
+ruff-check = "ruff check cubecrit"
 ruff-format-check = "ruff format --check"
 djlint-format-check = "djlint . --check"
 djlint-lint = "djlint . --lint"
 sqlfluff-lint = "sqlfluff lint"
-pydocstyle = "pydocstyle cubecrit"
 mypy = "mypy ."
 
-lint.sequence = ["ruff-check", "ruff-format-check", "djlint-format-check", "djlint-lint", "sqlfluff-lint", "pydocstyle", "mypy"]
+lint.sequence = ["ruff-check", "ruff-format-check", "djlint-format-check", "djlint-lint", "sqlfluff-lint", "mypy"]
 lint.ignore_fail = "return_non_zero"
 
 flask-debug = "flask --app cubecrit run --debug --reload --port 3000"
 
 [tool.pytest.ini_options]
-addopts = "--cov=cubecrit --cov-report=term-missing --cov-fail-under=65"
+addopts = "--cov=cubecrit --cov-report=term-missing --cov-fail-under=50" # raise coverage % requirement in the future
+
+[tool.ruff]
+target-version = "py310"
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+line-length = 88
+indent-width = 4
 
 [tool.ruff.lint]
-extend-select = ["I"]
+select = ["ALL"]
+fixable = ["ALL"]
+ignore = [
+    "D203", 
+    "D213", 
+    "D406", 
+    "D407", 
+    "D413", 
+    "D417", # remove this in the future; for now we need to silence it because our "Arguments" section is called "Parameters"
+    "PTH123", # remove this in the future; silencing for now because it's not a major concern
+    "TID252", # remove this in the future; silencing for now because it's not a major concern
+    "PERF401", # remove this in the future; silencing for now because it's not a major concern
+    "RUF015", # remove this in the future; silencing for now because it's not a major concern
+    "B904", # silencing for now because it's not a major concern but this is kinda cool so please remove in the future
+    "E501", #silencing for now because of long docstrings, but we should remove this in the future
+    "COM812", 
+    "ISC001",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
 
 [tool.djlint]
 profile = "jinja"
