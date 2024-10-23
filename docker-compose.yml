@@ -8,4 +8,9 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - 5432:5432
-  
+  cubecrit:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - DB_ADDRESS=postgresql://cubecrit:password@db:5432/cubecrit
