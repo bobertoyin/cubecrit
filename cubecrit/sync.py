@@ -1,13 +1,9 @@
 """Functions for synchronizing database data."""
 from csv import DictReader
-from io import TextIOWrapper
 from typing import Any, TypeAlias
-from urllib.request import urlopen
 
 from flask_apscheduler import APScheduler
 from sqlalchemy import Connection, text
-
-DATA_URL = "https://raw.githubusercontent.com/bobertoyin/cubecrit-data/main"
 
 CSVRow: TypeAlias = dict[str | Any, str | Any | None]
 
@@ -57,11 +53,12 @@ def _extract_data(name: str) -> list[CSVRow]:
     Returns a list of rows from the CSV file.
     """
     # open file from url -> buffer the text stream -> read CSV into list of dictionaries -> handle empty string values
-    return [
-        _replace_empty_string(row)
-        # suppressing lint because we're going to move away from remote CSV soon
-        for row in DictReader(TextIOWrapper(urlopen(f"{DATA_URL}/{name}.csv")))  # noqa: S310
-    ]
+    with open(f"cubecrit/data/{name}.csv") as file:
+        return [
+            _replace_empty_string(row)
+            # suppressing lint because we're going to move away from remote CSV soon
+            for row in DictReader(file)
+        ]
 
 
 def _replace_empty_string(

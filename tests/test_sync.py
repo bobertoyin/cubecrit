@@ -5,7 +5,6 @@ from flask import Flask
 from pytest import mark
 
 from cubecrit.sync import (
-    DATA_URL,
     CSVRow,
     _extract_data,
     _replace_empty_string,
@@ -36,7 +35,7 @@ def test__replace_empty_string(row: CSVRow, expected: CSVRow):
     assert result == expected
 
 
-@patch("cubecrit.sync.urlopen")
+@patch("builtins.open")
 @mark.parametrize(
     "mock_csv, name, expected",
     [
@@ -69,32 +68,35 @@ def test__extract_data(
     mock_file: MagicMock, mock_csv: str, name: str, expected: list[CSVRow]
 ):
     # arrange
-    mock_file.return_value = BytesIO(mock_csv.encode())
+    mock_file.return_value = StringIO(mock_csv)
 
     # act
     result = _extract_data(name)
 
     # assert
-    mock_file.assert_called_once_with(f"{DATA_URL}/{name}.csv")
+    mock_file.assert_called_once_with(f"cubecrit/data/{name}.csv")
     assert result == expected
 
 
 @patch("builtins.open")
-@patch("cubecrit.sync.urlopen")
 @patch("sqlalchemy.Connection")
 def test__sync_data_delegate(
-    mock_connection: MagicMock, mock_file: MagicMock, mock_query_open: MagicMock
+    mock_connection: MagicMock,
+    mock_file: MagicMock,
 ):
     # arrange
-    mock_query_open.return_value = StringIO("SELECT foo FROM bar;")
-    mock_file.return_value = BytesIO("h1,h2\n,\nr2c1,r2c2".encode())
+    mock_file.side_effect = [
+        StringIO("h1,h2\n,\nr2c1,r2c2"),
+        StringIO("SELECT foo FROM bar;"),
+    ]
 
     # act
     _sync_data_delegate(mock_connection, "test")
 
     # assert
-    mock_query_open.assert_called_once_with("cubecrit/sql/sync/test.sql")
-    mock_file.assert_called_once_with(f"{DATA_URL}/test.csv")
+    mock_file.assert_has_calls(
+        [call("cubecrit/data/test.csv"), call("cubecrit/sql/sync/test.sql")]
+    )
     mock_connection.execute.assert_called_once_with(
         mock_connection.execute.call_args[0][0],
         [{"h1": None, "h2": None}, {"h1": "r2c1", "h2": "r2c2"}],
