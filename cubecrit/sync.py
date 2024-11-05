@@ -54,10 +54,7 @@ def _extract_data(name: str) -> list[CSVRow]:
     """
     # open file from url -> buffer the text stream -> read CSV into list of dictionaries -> handle empty string values
     with open(f"cubecrit/data/{name}.csv") as file:
-        return [
-            _replace_empty_string(row)
-            for row in DictReader(file)
-        ]
+        return [_replace_empty_string(row) for row in DictReader(file)]
 
 
 def _replace_empty_string(
