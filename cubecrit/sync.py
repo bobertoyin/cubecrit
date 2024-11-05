@@ -56,7 +56,6 @@ def _extract_data(name: str) -> list[CSVRow]:
     with open(f"cubecrit/data/{name}.csv") as file:
         return [
             _replace_empty_string(row)
-            # suppressing lint because we're going to move away from remote CSV soon
             for row in DictReader(file)
         ]
 
