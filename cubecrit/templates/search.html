@@ -18,7 +18,9 @@
                aria-label="Search"
                name="query"
                value="{{ query }}">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
+        <button class="btn btn-outline-primary" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+        </button>
     </form>
     {% for row in puzzles %}
         <div class="card w-25">
@@ -44,7 +46,7 @@
                 <a class="page-link {{ left_disabled }}"
                    href="{{ left_link }}"
                    aria-label="Previous">
-                    <span>«</span>
+                    <i class="fa-solid fa-chevron-left"></i>
                 </a>
             </li>
             {% if page > 1 %}
@@ -72,7 +74,7 @@
                 <a class="page-link {{ right_disabled }}"
                    href="{{ right_link }}"
                    aria-label="Next">
-                    <span>»</span>
+                    <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </li>
         </ul>

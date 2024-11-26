@@ -5,6 +5,10 @@
         <meta name="keywords" content="">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/0bc8aa06cc.js"
+                crossorigin="anonymous"></script>
+        <link href="{{ url_for('static', filename='styles/inline.css') }}"
+              rel="stylesheet">
         <title>
             {% block title %}
             {% endblock title %}
@@ -53,13 +57,17 @@
                                 <ul class="dropdown-menu dropdown-menu-lg-end p-0">
                                     <li class="m-1">
                                         <button id="theme-light"
-                                                class="dropdown-item rounded"
-                                                onclick="setTheme('light')">Light</button>
+                                                class="dropdown-item rounded text-body"
+                                                onclick="setTheme('light')">
+                                            <span><i class="fa-regular fa-sun"></i> Light</span>
+                                        </button>
                                     </li>
                                     <li class="m-1">
                                         <button id="theme-dark"
                                                 class="dropdown-item rounded"
-                                                onclick="setTheme('dark')">Dark</button>
+                                                onclick="setTheme('dark')">
+                                            <i class="fa-regular fa-moon"></i> Dark
+                                        </button>
                                     </li>
                                 </ul>
                             </li>
