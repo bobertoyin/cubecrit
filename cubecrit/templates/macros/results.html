@@ -1,0 +1,52 @@
+{% macro grid(results) -%}
+    <div class="row row-cols-lg-6 row-cols-md-4 row-cols-2">
+        {% for result in results %}
+            <div class="col my-2">
+                <div class="card text-center">{{ caller(result) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{%- endmacro %}
+{% macro navbar(page, num_pages, base_url) -%}
+    <nav>
+        <ul class="pagination">
+            {% if page <= 1 %}
+                {% set left_disabled = "disabled" %}
+            {% else %}
+                {% set left_link = url_for(base_url, page=page-1) %}
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link {{ left_disabled }}"
+                   href="{{ left_link }}"
+                   aria-label="Previous">
+                    <span>«</span>
+                </a>
+            </li>
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for(base_url, page=page-1) }}">{{ page-1 }}</a>
+                </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link active" href="{{ url_for(base_url, page=page) }}">{{ page }}</a>
+            </li>
+            {% if page < num_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for(base_url, page=page+1) }}">{{ page+1 }}</a>
+                </li>
+            {% endif %}
+            {% if page >= num_pages %}
+                {% set right_disabled = "disabled" %}
+            {% else %}
+                {% set right_link = url_for(base_url, page=page+1) %}
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link {{ right_disabled }}"
+                   href="{{ right_link }}"
+                   aria-label="Next">
+                    <span>»</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{%- endmacro %}
