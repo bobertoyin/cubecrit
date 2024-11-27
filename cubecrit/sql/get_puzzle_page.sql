@@ -19,7 +19,12 @@ INNER JOIN country
     ON manufacturer.country_id = country.id
 WHERE
     (:puzzle_type IS NULL OR puzzle_type.external_id = :puzzle_type)
-    AND (:q IS NULL OR LOWER(puzzle.display_name) LIKE CONCAT('%', :q, '%'))
+    AND (
+        :q IS NULL
+        OR CONCAT(
+            LOWER(manufacturer.display_name), ' ', LOWER(puzzle.display_name)
+        ) LIKE CONCAT('%', :q, '%')
+    )
     AND (
         :manufacturer_external_id IS NULL
         OR manufacturer.external_id = :manufacturer_external_id
