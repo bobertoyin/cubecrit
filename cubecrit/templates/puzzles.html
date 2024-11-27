@@ -1,21 +1,23 @@
+{% import 'macros/results.html' as results %}
 {% extends "base.html" %}
 {% block title %}
-    All Puzzles
+    Puzzles
 {% endblock title %}
 {% block content %}
-    {% for row in puzzle_page %}
-        <div class="card w-25">
-            <img src="{{ url_for('static', filename='/assets/cube.png') }}"
-                 class="card-img-top"
-                 alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ row.manufacturer.display_name }} {{ row.display_name }}</h5>
-                <p class="card-text"></p>
-                <a href="{{ url_for('puzzles.get_puzzle_route', external_id=row.external_id) }}"
-                   class="btn btn-primary">Check it out!</a>
-            </div>
+    <h1>Puzzles</h1>
+    {% call(puzzle) results.grid(puzzle_page) %}
+        <img src="{{ url_for('static', filename='/assets/cube.png') }}"
+             class="card-img-top p-3"
+             alt="...">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{{ url_for('puzzles.get_puzzle_route', external_id=puzzle.external_id) }}">
+                    {{ puzzle.manufacturer.display_name }} {{ puzzle.display_name }}
+                </a>
+            </h5>
+            <p class="card-text">{{ puzzle.puzzle_type.display_name }}</p>
         </div>
-    {% endfor %}
+    {% endcall %}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             {% if page <= 1 %}

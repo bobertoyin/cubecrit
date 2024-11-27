@@ -1,0 +1,20 @@
+{% import 'macros/results.html' as results %}
+{% extends "base.html" %}
+{% block title %}
+    Manufacturers
+{% endblock title %}
+{% block content %}
+    <h1>Manufacturers</h1>
+    {% call(manufacturer) results.grid(manufacturers) %}
+        <img src="{{ url_for('static', filename='/assets/cube.png') }}"
+             class="card-img-top p-3"
+             alt="...">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{{ url_for('manufacturers.get_manufacturer_route', external_id=manufacturer.external_id) }}">{{ manufacturer.display_name }}</a>
+            </h5>
+            <p class="card-text">Country: {{ manufacturer.country.display_name }}</p>
+        </div>
+    {% endcall %}
+    {{ results.navbar(page, num_pages, 'manufacturers.get_manufacturer_page_route') }}
+{% endblock content %}
