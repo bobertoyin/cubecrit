@@ -1,6 +1,8 @@
 """Entry point for the application."""
+from datetime import datetime
 from os import environ
 
+from dateutil.tz import tzlocal
 from flask import Flask
 from sqlalchemy import create_engine, text
 
@@ -24,6 +26,7 @@ def create_app() -> Flask:
     app.register_blueprint(manufacturers)
     app.register_blueprint(puzzles)
     app.register_blueprint(search)
+    app.context_processor(lambda: {"now": datetime.now(tz=tzlocal())})
 
     with app.config["db"].connect() as connection:
         with app.open_resource("sql/schema.sql") as schema:
